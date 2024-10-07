@@ -1,0 +1,680 @@
+modules:
+  - name: managed-ci-workflow
+    description: Managed CI Workflow
+    repositories:
+      - name: managed-ci-workflow-test-maven
+        refspec: v1.6.0
+      - name: managed-ci-workflow-test-python
+        refspec: v1.6.0
+        optional_workflows:
+          - managed-ci-pr-ft.yaml-xyz
+        build_system: python
+      - name: managed-ci-workflow-test-golang
+        refspec: v1.6.0
+      - name: managed-ci-workflow-test-scala
+        refspec: v1.6.0
+      - name: testapprepo
+        refspec: tags/v1.7.1-abc
+      - name: service-identity
+        refspec: tags/v1.5.0
+      - name: requestlog
+        refspec: tags/v1.5.0
+      - name: service-registry
+        refspec: tags/v1.8.3-pqr
+      - name: service-provision
+        refspec: tags/v1.8.3
+      - name: app-catalog
+        refspec: tags/v1.6.5
+      - name: app-provision
+        refspec: tags/v1.6.5
+      - name: attestation-service
+        refspec: tags/v1.6.0
+      - name: spire
+        refspec: tags/v1.6.0
+      - name: geo
+        refspec: tags/v1.6.5
+      - name: harmony-data-plane
+        refspec: tags/v1.6.6
+      - name: harmony-cli
+        refspec: tags/v1.5.0
+      - name: melody-scala-sdk
+        refspec: tags/v1.5.2
+      - name: melody-functions
+        refspec: tags/v1.5.2
+      - name: melody-python-sdk
+        refspec: tags/v1.7.3
+      - name: harmony-etl-scala-example
+        refspec: tags/v1.4.1
+      - name: harmony-etl-sdk-golang
+        refspec: tags/v1.6.2
+      - name: trino-go-client
+        refspec: tags/v1.6.2
+      - name: pg_query_go
+        refspec: tags/v1.6.2
+      - name: orgs-token-svc
+        refspec: tags/v1.5.7
+      - name: orgs-base
+        refspec: tags/v1.5.7
+      - name: orgs-authz-lib
+        refspec: tags/v1.5.7
+      - name: orgs-provisioning
+        refspec: tags/v1.5.7
+      - name: orgs-scim
+        refspec: tags/v1.5.7
+      - name: orgs-okta-keys
+        refspec: tags/v1.5.7
+      - name: workspace-association-manager
+        refspec: tags/v1.8.0
+      - name: orgs-identity-center
+        refspec: tags/v1.7.4
+      - name: user-group-management
+        refspec: tags/v1.6.5
+      - name: ccs-appfactory
+        refspec: tags/v1.6.5
+      - name: authn-lib
+        refspec: tags/v1.6.5
+      - name: account-management-lib
+        refspec: tags/v1.6.5
+      - name: unified-session-management
+        refspec: tags/v1.8.2
+      - name: pingfederate-base
+        refspec: tags/v1.6.5
+      - name: ui-doorway
+        refspec: tags/v1.7.4
+      - name: sbt-harmony
+        refspec: tags/v1.4.1
+      - name: harmony-core
+        refspec: tags/v1.4.1
+      - name: harmony-predef
+        refspec: tags/v1.4.1
+      - name: harmony-hauler
+        refspec: tags/v1.4.1
+      - name: harmony-uploadServer
+        refspec: tags/v1.4.1
+      - name: harmony-archives
+        refspec: tags/v1.4.1
+      - name: harmony-message-ingest
+        refspec: tags/v1.4.1
+      - name: harmony-prisma
+        refspec: tags/v1.4.1
+      - name: harmony-pal
+        refspec: tags/v1.4.1
+      - name: harmony-tools
+        refspec: tags/v1.4.1
+      - name: harmony-avalanche
+        refspec: tags/v1.4.1
+      - name: harmony-customsparkjobs
+        refspec: tags/v1.4.1
+      - name: harmony-pysparkjobs
+        refspec: tags/v1.4.1
+      - name: harmony-metadata
+        refspec: tags/v1.5.0
+      - name: harmony-db-sharding-service
+        refspec: tags/v1.4.1
+      - name: harmony-message-egress
+        refspec: tags/v1.4.1
+      - name: account-management
+        refspec: tags/v1.6.5
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: authn
+        refspec: tags/v1.6.5
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: subscription-management
+        refspec: tags/v1.7.4
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-inventory
+        refspec: tags/v1.7.4
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-order-processor
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-device-direct
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-bridge
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: platform-support-frontend-service
+        refspec: tags/v1.8.0
+      - name: pingfederate
+        refspec: tags/v1.6.5
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: unified-api
+        refspec: tags/v1.8.0
+      - name: unified-events-registration-service
+        refspec: tags/v1.6.5
+      - name: unified-events-delivery-service
+        refspec: tags/v1.6.5
+      - name: unified-events-ingestion-service
+        refspec: tags/v1.8.0
+      - name: unified-events-nats-infra
+        refspec: tags/v1.6.1
+      - name: platform-analytics-ccs-spark
+        refspec: tags/v1.6.1
+      - name: user-personalisation
+        refspec: tags/v1.8.1
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: platform-analytics-ccs-etl
+        refspec: tags/v1.6.1
+      - name: authz
+        refspec: tags/v1.8.4
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: authz-lib
+        refspec: tags/v1.8.4
+      - name: authz-svc
+        refspec: tags/v1.8.1
+      - name: groups
+        refspec: tags/v1.8.4
+      - name: platform-analytics-ingest-etl
+        refspec: tags/v1.6.1
+      - name: platform-analytics-ingest-sparkjobs
+        refspec: tags/v1.6.1
+      - name: sample-publisher
+        refspec: tags/v1.6.5
+      - name: global-search
+        refspec: tags/v1.4.3
+      - name: support-assistant
+        refspec: tags/v1.7.4
+      - name: activate-device-direct-router
+        refspec: tags/v1.3.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: gold
+        refspec: tags/v1.3.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: gold-envoy
+        refspec: tags/v1.3.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: msg-worker
+        refspec: tags/v1.7.4
+      - name: event-publisher
+        refspec: tags/v1.7.4
+      - name: event-publisher-lib
+        refspec: tags/v1.7.4
+      - name: event-publisher-go-lib
+        refspec: tags/v1.7.4
+      - name: harmony-data-plane-python-sdk
+        refspec: tags/v1.4.3
+      - name: gts-compliance
+        refspec: tags/v1.7.4
+      - name: qtc
+        refspec: tags/v1.6.1
+      - name: quote-to-cash
+        refspec: tags/v1.5.0
+      - name: api-sample-service
+        refspec: tags/v1.5.0
+      - name: metric-collector
+        refspec: tags/v1.6.1
+      - name: test-service-catalog-utils
+        refspec: tags/v1.5.1
+      - name: mci-test-service-catalog-utils
+        refspec: tags/v1.5.1
+      - name: report-engine
+        refspec: tags/v1.6.1
+      - name: report-core
+        refspec: tags/v1.6.1
+      - name: report-mgmt
+        refspec: tags/v1.6.1
+      - name: whats-new
+        refspec: tags/v1.8.1
+      - name: invoicing-api
+        refspec: tags/v1.6.1
+      # will enable after maven workflow is verified in cds-proxy-gateway
+      #- name: cds-proxy-gateway
+      #  refspec: tags/v1.5.0
+      - name: sso-management
+        refspec: tags/v1.8.2
+      - name: audit-trail
+        refspec: tags/v1.6.5
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: ccs-audit-trail-lib
+        refspec: tags/v1.6.5
+      - name: mci-test-unified-api
+        refspec: tags/v1.5.1
+      - name: firmware-registry
+        refspec: tags/v1.6.1
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: notifications-service
+        refspec: tags/v1.6.5
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: async-handler-service
+        refspec: tags/v1.6.1
+      - name: ccs-global-trade-compliance-lib
+        refspec: tags/v1.7.4
+      - name: location-management
+        refspec: tags/v1.5.2
+      - name: octo-innov-ethan
+        refspec: tags/v1.5.2
+      - name: ccp-terraform-aws-alb
+        refspec: tags/v1.6.1
+      - name: octo-innov-ethan-chat
+        refspec: tags/v1.5.2
+      - name: inventory-nbapi
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: tag-repository
+        refspec: tags/v1.6.1
+      - name: device-profile-management
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-v1-nginx
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-v2-nginx
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-data-synchronizer
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: octo-innov-ethan-proxy
+        refspec: tags/v1.6.0
+      - name: platform-chat-proxy-service
+        refspec: tags/v1.8.2
+      - name: PerformanceRecommender
+        refspec: tags/v1.6.1
+      - name: nimble-notification-service
+        refspec: tags/v1.7.1
+      - name: support-access-manager
+        refspec: tags/v1.8.1
+      - name: service-catalog-utils
+        refspec: tags/v1.8.3
+      - name: platform-analytics-uapi-etl
+        refspec: tags/v1.7.4
+      - name: platform-analytics-uapi-spark
+        refspec: tags/v1.7.4
+      - name: nimble-registration-service
+        refspec: tags/v1.7.1
+      - name: mci-python-sample-app
+        refspec: tags/v1.7.1
+      - name: spire-fetch-monitor
+        refspec: tags/v1.8.4
+      - name: platform-analytics-aruba-spark
+        refspec: tags/v1.7.4
+      - name: nimble-analytics
+        refspec: tags/v1.7.4
+      - name: symphony-api
+        refspec: tags/v1.7.4
+      - name: melody-custom-spark-image-qa
+        refspec: tags/v1.7.4
+      - name: hpedev-sample-go
+        refspec: tags/v1.6.5
+      - name: pa-data-pipeline
+        refspec: tags/v1.7.4
+      - name: greenlake-header
+        refspec: tags/v1.8.0
+      - name: greenlake-analytics
+        refspec: tags/v1.8.2
+      - name: glp-qna-search
+        refspec: tags/v1.8.2
+      - name: support
+        refspec: tags/v1.8.0
+      - name: symphony
+        refspec: tags/v1.8.0
+      - name: common-data-hauler-melody
+        refspec: tags/v1.8.2
+      - name: ccs-tools
+        refspec: tags/v1.7.4
+      - name: device-identity-service
+        refspec: tags/v1.8.4
+      - name: mci-terraform-sample-app
+        refspec: tags/v1.8.4
+  - name: managed-ci-workflow-v2
+    description: Managed CI Workflow
+    repositories:
+      - name: managed-ci-workflow-test-maven
+        refspec: v1.6.0
+      - name: managed-ci-workflow-test-python
+        refspec: v1.6.0
+        optional_workflows:
+          - managed-ci-pr-ft.yaml
+        build_system: python
+      - name: managed-ci-workflow-test-golang
+        refspec: v1.6.0
+        build_system: golang
+      - name: managed-ci-workflow-test-scala
+        refspec: v1.6.0
+      - name: testapprepo
+        refspec: tags/v1.7.1-abc
+      - name: service-identity
+        refspec: tags/v1.5.0
+      - name: requestlog
+        refspec: tags/v1.5.0
+      - name: service-registry
+        refspec: tags/v1.8.3-pqr
+      - name: service-provision
+        refspec: tags/v1.8.3
+      - name: app-catalog
+        refspec: tags/v1.6.5
+      - name: app-provision
+        refspec: tags/v1.6.5
+      - name: attestation-service
+        refspec: tags/v1.6.0
+      - name: spire
+        refspec: tags/v1.6.0
+      - name: geo
+        refspec: tags/v1.6.5
+      - name: harmony-data-plane
+        refspec: tags/v1.6.6
+      - name: harmony-cli
+        refspec: tags/v1.5.0
+      - name: melody-scala-sdk
+        refspec: tags/v1.5.2
+      - name: melody-functions
+        refspec: tags/v1.5.2
+      - name: melody-python-sdk
+        refspec: tags/v1.7.3
+      - name: harmony-etl-scala-example
+        refspec: tags/v1.4.1
+      - name: harmony-etl-sdk-golang
+        refspec: tags/v1.6.2
+      - name: trino-go-client
+        refspec: tags/v1.6.2
+      - name: pg_query_go
+        refspec: tags/v1.6.2
+      - name: orgs-token-svc
+        refspec: tags/v1.5.7
+      - name: orgs-base
+        refspec: tags/v1.5.7
+      - name: orgs-authz-lib
+        refspec: tags/v1.5.7
+      - name: orgs-provisioning
+        refspec: tags/v1.5.7
+      - name: orgs-scim
+        refspec: tags/v1.5.7
+      - name: orgs-okta-keys
+        refspec: tags/v1.5.7
+      - name: workspace-association-manager
+        refspec: tags/v1.8.0
+      - name: orgs-identity-center
+        refspec: tags/v1.7.4
+      - name: user-group-management
+        refspec: tags/v1.6.5
+      - name: ccs-appfactory
+        refspec: tags/v1.6.5
+      - name: authn-lib
+        refspec: tags/v1.6.5
+      - name: account-management-lib
+        refspec: tags/v1.6.5
+      - name: unified-session-management
+        refspec: tags/v1.8.2
+      - name: pingfederate-base
+        refspec: tags/v1.6.5
+      - name: ui-doorway
+        refspec: tags/v1.7.4
+      - name: sbt-harmony
+        refspec: tags/v1.4.1
+      - name: harmony-core
+        refspec: tags/v1.4.1
+      - name: harmony-predef
+        refspec: tags/v1.4.1
+      - name: harmony-hauler
+        refspec: tags/v1.4.1
+      - name: harmony-uploadServer
+        refspec: tags/v1.4.1
+      - name: harmony-archives
+        refspec: tags/v1.4.1
+      - name: harmony-message-ingest
+        refspec: tags/v1.4.1
+      - name: harmony-prisma
+        refspec: tags/v1.4.1
+      - name: harmony-pal
+        refspec: tags/v1.4.1
+      - name: harmony-tools
+        refspec: tags/v1.4.1
+      - name: harmony-avalanche
+        refspec: tags/v1.4.1
+      - name: harmony-customsparkjobs
+        refspec: tags/v1.4.1
+      - name: harmony-pysparkjobs
+        refspec: tags/v1.4.1
+      - name: harmony-metadata
+        refspec: tags/v1.5.0
+      - name: harmony-db-sharding-service
+        refspec: tags/v1.4.1
+      - name: harmony-message-egress
+        refspec: tags/v1.4.1
+      - name: account-management
+        refspec: tags/v1.6.5
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: authn
+        refspec: tags/v1.6.5
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: subscription-management
+        refspec: tags/v1.7.4
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-inventory
+        refspec: tags/v1.7.4
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-order-processor
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-device-direct
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-bridge
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: platform-support-frontend-service
+        refspec: tags/v1.8.0
+      - name: pingfederate
+        refspec: tags/v1.6.5
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: unified-api
+        refspec: tags/v1.8.0
+      - name: unified-events-registration-service
+        refspec: tags/v1.6.5
+      - name: unified-events-delivery-service
+        refspec: tags/v1.6.5
+      - name: unified-events-ingestion-service
+        refspec: tags/v1.8.0
+      - name: unified-events-nats-infra
+        refspec: tags/v1.6.1
+      - name: platform-analytics-ccs-spark
+        refspec: tags/v1.6.1
+      - name: user-personalisation
+        refspec: tags/v1.8.1
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: platform-analytics-ccs-etl
+        refspec: tags/v1.6.1
+      - name: authz
+        refspec: tags/v1.8.4
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: authz-lib
+        refspec: tags/v1.8.4
+      - name: authz-svc
+        refspec: tags/v1.8.1
+      - name: groups
+        refspec: tags/v1.8.4
+      - name: platform-analytics-ingest-etl
+        refspec: tags/v1.6.1
+      - name: platform-analytics-ingest-sparkjobs
+        refspec: tags/v1.6.1
+      - name: sample-publisher
+        refspec: tags/v1.6.5
+      - name: global-search
+        refspec: tags/v1.4.3
+      - name: support-assistant
+        refspec: tags/v1.7.4
+      - name: activate-device-direct-router
+        refspec: tags/v1.3.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: gold
+        refspec: tags/v1.3.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: gold-envoy
+        refspec: tags/v1.3.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: msg-worker
+        refspec: tags/v1.7.4
+      - name: event-publisher
+        refspec: tags/v1.7.4
+      - name: event-publisher-lib
+        refspec: tags/v1.7.4
+      - name: event-publisher-go-lib
+        refspec: tags/v1.7.4
+      - name: harmony-data-plane-python-sdk
+        refspec: tags/v1.4.3
+      - name: gts-compliance
+        refspec: tags/v1.7.4
+      - name: qtc
+        refspec: tags/v1.6.1
+      - name: quote-to-cash
+        refspec: tags/v1.5.0
+      - name: api-sample-service
+        refspec: tags/v1.5.0
+      - name: metric-collector
+        refspec: tags/v1.6.1
+      - name: test-service-catalog-utils
+        refspec: tags/v1.5.1
+      - name: mci-test-service-catalog-utils
+        refspec: tags/v1.5.1
+      - name: report-engine
+        refspec: tags/v1.6.1
+      - name: report-core
+        refspec: tags/v1.6.1
+      - name: report-mgmt
+        refspec: tags/v1.6.1
+      - name: whats-new
+        refspec: tags/v1.8.1
+      - name: invoicing-api
+        refspec: tags/v1.6.1
+      # will enable after maven workflow is verified in cds-proxy-gateway
+      #- name: cds-proxy-gateway
+      #  refspec: tags/v1.5.0
+      - name: sso-management
+        refspec: tags/v1.8.2
+      - name: audit-trail
+        refspec: tags/v1.6.5
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: ccs-audit-trail-lib
+        refspec: tags/v1.6.5
+      - name: mci-test-unified-api
+        refspec: tags/v1.5.1
+      - name: firmware-registry
+        refspec: tags/v1.6.1
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: notifications-service
+        refspec: tags/v1.6.5
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: async-handler-service
+        refspec: tags/v1.6.1
+      - name: ccs-global-trade-compliance-lib
+        refspec: tags/v1.7.4
+      - name: location-management
+        refspec: tags/v1.5.2
+      - name: octo-innov-ethan
+        refspec: tags/v1.5.2
+      - name: ccp-terraform-aws-alb
+        refspec: tags/v1.6.1
+      - name: octo-innov-ethan-chat
+        refspec: tags/v1.5.2
+      - name: inventory-nbapi
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: tag-repository
+        refspec: tags/v1.6.1
+      - name: device-profile-management
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-v1-nginx
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-v2-nginx
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: activate-data-synchronizer
+        refspec: tags/v1.7.3
+        optional_workflows:
+          - managed-ci-hotfix-branch-create.yaml
+      - name: octo-innov-ethan-proxy
+        refspec: tags/v1.6.0
+      - name: platform-chat-proxy-service
+        refspec: tags/v1.8.2
+      - name: PerformanceRecommender
+        refspec: tags/v1.6.1
+      - name: nimble-notification-service
+        refspec: tags/v1.7.1
+      - name: support-access-manager
+        refspec: tags/v1.8.1
+      - name: service-catalog-utils
+        refspec: tags/v1.8.3
+      - name: platform-analytics-uapi-etl
+        refspec: tags/v1.7.4
+      - name: platform-analytics-uapi-spark
+        refspec: tags/v1.7.4
+      - name: nimble-registration-service
+        refspec: tags/v1.7.1
+      - name: mci-python-sample-app
+        refspec: tags/v1.7.1
+      - name: spire-fetch-monitor
+        refspec: tags/v1.8.4
+      - name: platform-analytics-aruba-spark
+        refspec: tags/v1.7.4
+      - name: nimble-analytics
+        refspec: tags/v1.7.4
+      - name: symphony-api
+        refspec: tags/v1.7.4
+      - name: melody-custom-spark-image-qa
+        refspec: tags/v1.7.4
+      - name: hpedev-sample-go
+        refspec: tags/v1.6.5
+      - name: pa-data-pipeline
+        refspec: tags/v1.7.4
+      - name: greenlake-header
+        refspec: tags/v1.8.0
+      - name: greenlake-analytics
+        refspec: tags/v1.8.2
+      - name: glp-qna-search
+        refspec: tags/v1.8.2
+      - name: support
+        refspec: tags/v1.8.0
+      - name: symphony
+        refspec: tags/v1.8.0
+      - name: common-data-hauler-melody
+        refspec: tags/v1.8.2
+      - name: ccs-tools
+        refspec: tags/v1.7.4
+      - name: device-identity-service
+        refspec: tags/v1.8.4
+      - name: mci-terraform-sample-app
+        refspec: tags/v1.8.4

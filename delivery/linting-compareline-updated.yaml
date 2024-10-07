@@ -1,0 +1,59 @@
+import re
+import sys
+
+diff_file = 'git-diff.txt'
+lint_logfile = 'super-linter.log'
+file_lines_dict = {}
+words = ['^diff', '^\+\s+', '^\-\s+', '^\+\d+', '^\-\d+', '^\-+', '^\++']
+dictname = ''
+
+def line_starts_with_any_word(line, words):
+    return any(re.match(word, line) for word in words)
+
+with open(diff_file, 'r', encoding="utf8") as file:
+    for line_number, line in enumerate(file, start=1):
+        line = line.strip()
+        if line_starts_with_any_word(line, words):
+            if line.startswith('diff'):
+                dictname = (line.split(" ")[-1])[2:]
+                cleaned_line = dictname.strip().replace('/github/workspace/', '')
+                if dictname not in file_lines_dict.keys():
+                    file_lines_dict[dictname] = []
+            else:
+                line_num = re.findall(r'^[+-]\s*(\d+)', line)
+                for ln in line_num:
+                    file_lines_dict[dictname].append(ln)
+
+error_dict = {key: [] for key in file_lines_dict}
+unique_file_lines_dict = {key: list(set(value)) for key, value in file_lines_dict.items()}
+line_num_pattern = r'\b\d+:\d+\b'
+
+with open(lint_logfile, 'r', encoding="utf8") as file:
+    for line in file:
+        if re.search('error', line, re.IGNORECASE):
+            line_list = line.split(' ')
+            filename = [word for word in line_list if '/' in word]
+            if len(filename) > 0:
+                filename = str(filename).strip().replace('/github/workspace/', '').replace('[', '').replace("'",'').replace(']','')
+                filename = filename.split(':')[0]
+                for word in line_list:
+                    result = None
+                    match = re.search(line_num_pattern, word)
+                    if match:
+                        result = match.group().split(':')[0]
+                        break
+                if filename in error_dict:
+                    if result not in error_dict[filename]:
+                        error_dict[filename].append(result)
+
+output_dict = {}
+for key in error_dict.keys():
+    if key in file_lines_dict:
+        common_values = set(error_dict[key]) & set(file_lines_dict[key])
+        if common_values:
+            output_dict[key] = common_values
+            print(f"'{key} having linting error on line': {common_values}")
+
+any_non_empty = any(errors for errors in output_dict.values())
+if any_non_empty:
+    sys.exit(1)

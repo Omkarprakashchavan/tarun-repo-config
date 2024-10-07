@@ -1,0 +1,42 @@
+import smtplib
+import ssl
+import os
+import sys
+from os.path import basename
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
+
+try:
+    n=len(sys.argv)
+    print("\nArguments passed:", end = " ")
+    for i in range(1, n):
+      print(sys.argv[i], end = " ")
+    dev_email = sys.argv[1]
+    manager_email = sys.argv[2]
+except IndexError:
+    print('Developer and Manager email not supplied to script')
+    sys.exit(1)
+
+
+email_server_address = os.environ['EMAIL_SERVER_NAME']
+email_server_port = int(os.environ['EMAIL_SERVER_PORTNUM'])
+email_server_username = os.environ['EMAIL_SERVER_USERNAME']
+email_server_password = os.environ['EMAIL_SERVER_PASSWORD']
+email_from = os.environ['EMAIL_FROM']
+repo_name = os.environ['GIT_REPO']
+
+
+msg = MIMEMultipart()
+msg['From'] = email_from
+msg['To'] = dev_email
+msg['Subject'] = "GitHub Workflow [SSH Linter] failed for " + repo_name
+content = "GitHub workflow failed for " + repo_name + ". Please fix the linting issues!!!"
+body = MIMEText(content, 'plain')
+
+msg.attach(body)
+context = ssl.create_default_context()
+with smtplib.SMTP_SSL(email_server_address, email_server_port, context=context) as s:
+    s.login(email_server_username, email_server_password)
+    s.send_message(msg, from_addr=email_from, to_addrs=dev_email)
+    s.quit()

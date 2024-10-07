@@ -1,0 +1,28 @@
+modules:
+  - name: managed-ci-workflow
+    description: Managed CI Workflow
+    repositories:
+      - name: repo-1
+        refspec: tags/v1.2.0
+        language:
+          - java
+      - name: repo-2
+        refspec: tags/v1.1.0
+        optional_workflows:
+          - managed-ci-pr-ft.yaml
+      - name: repo-3
+        refspec: tags/v1.1.0
+        language:
+          - shell
+      - name: repo-4
+        refspec: tags/v1.2.0
+        optional_workflows:
+          - managed-ci-pr-ft.yaml
+        language:
+          - python
+      - name: repo-5
+        refspec: tags/v1.3.0
+        optional_workflows:
+          - managed-ci-pr-ft.yaml
+        language:
+          - golang

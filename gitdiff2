@@ -1,0 +1,531 @@
+-878    :							Index:          10,
+1630
+-879    :							UserVisibility: true,
+1631
+-880    :							Type:           "string",
+1632
+-881    :							Validation: &models.Validation{
+1633
+-882    :								Regex: "^[0-9 \\-\\+]{7,30}$",
+1634
+-883    :							},
+1635
+-884    :							Mandatory: true,
+1636
+-885    :						},
+1637
+-886    :						{
+1638
+-887    :							Index:          11,
+1639
+-888    :							UserVisibility: true,
+1640
+-889    :							Type:           "group-header",
+1641
+-890    :							Heading: &models.Heading{
+1642
+-891    :								DisplayName: "Deployment",
+1643
+-892    :								I18nKey:     "services:eval_data.deployment_group_heading",
+1644
+-893    :							},
+1645
+-894    :							Subtitle: &models.Subtitle{
+1646
+-895    :								DisplayName: "Select a region to deploy the service. Once set up, it can be deployed to additional regions.",
+1647
+-896    :								I18nKey:     "services:eval_data.deployment_group_subtitle",
+1648
++    205:							Name:              "region",
+1649
++    206:							DisplayName:       "Deployment Region",
+1650
++    207:							CharacteristicKey: "region",
+1651
++    208:							Index:             12,
+1652
++    209:							Description:       "",
+1653
++    210:							DetailDescription: "",
+1654
++    211:							AllowedValues: []models.AllowedValues{
+1655
++    212:								{
+1656
++    213:									Name:        "US West",
+1657
++    214:									Code:        "US West",
+1658
++    215:									Index:       0,
+1659
++    216:									Description: "",
+1660
++    217:									IsDefault:   true,
+1661
++    218:								},
+1662
++    219:								{
+1663
++    220:									Name:        "US East",
+1664
++    221:									Code:        "US East",
+1665
++    222:									Index:       1,
+1666
++    223:									Description: "",
+1667
++    224:									IsDefault:   false,
+1668
++    225:								},
+1669
+897 226:							},
+1670
+-898    :						},
+1671
+-899    :						{
+1672
+-900    :							Name:           "region",
+1673
+-901    :							DisplayName:    "Deployment Region",
+1674
+-902    :							I18nKey:        "services:eval_data.deployment_region",
+1675
+-903    :							Index:          12,
+1676
+904 227:							UserVisibility: true,
+1677
+905 228:							Type:           "preselectValue",
+1678
+906 229:						},
+1679
+907 230:						{
+1680
+908 231:							Name: "acceptTerms",
+1681
+909 232:							DisplayName: "I agree to the " +
+1682
+-910    :								"[Terms of Service](https://www.hpe.com/us/en/about/legal/ccs-terms.html)",
+1683
+-911    :							I18nKey:        "services:DATASVS.eval_data.terms_and_conditions",
+1684
+-912    :							Index:          13,
+1685
+-913    :							UserVisibility: true,
+1686
+-914    :							Type:           "boolean",
+1687
+-915    :							Mandatory:      true,
+1688
++    233:								"[Terms of Service](https://www.hpe.com/us/en/about/legal/ccs-terms.html#compute)",
+1689
++    234:							CharacteristicKey: "acceptTerms",
+1690
++    235:							Index:             13,
+1691
++    236:							Description:       "",
+1692
++    237:							DetailDescription: "",
+1693
++    238:							UserVisibility:    true,
+1694
++    239:							Type:              "boolean",
+1695
++    240:							Mandatory:         true,
+1696
++    241:						},
+1697
++    242:						{
+1698
++    243:							Name: "",
+1699
++    244:							DisplayName: "### Next steps after the evaluation request is " +
+1700
++    245:								"accepted\n\n- Ensure users doing the evaluation are assigned to roles with the " +
+1701
++    246:								"appropriate permissions.\n    \n- Users doing the evaluation must add devices, " +
+1702
++    247:								"assign devices to this service and apply subscriptions from the devices page.",
+1703
++    248:							CharacteristicKey: "",
+1704
++    249:							Index:             14,
+1705
++    250:							Description:       "",
+1706
++    251:							DetailDescription: "",
+1707
++    252:							UserVisibility:    true,
+1708
++    253:							Type:              "fixed-text",
+1709
+916 254:						},
+1710
+917 255:					},
+1711
+918 256:				},
+1712
+919 257:				Metering: []models.Metering{},
+1713
+920 258:			},
+1714
+921 259:		},
+1715
++    260:		"BAR": {},
+1716
+922 261:	}
+1717
+923 262:}
+1718
+diff --git a/internal/constants/eval-catalog-metadata_test.go b/internal/constants/eval-catalog-metadata_test.go
+1719
+index 838ea3699..d77f5f756 100644
+1720
+--- a/internal/constants/eval-catalog-metadata_test.go
+1721
++++ b/internal/constants/eval-catalog-metadata_test.go
+1722
+@@ -13,30 +13,10 @@ func TestGetEvalCatalogMetadataMap(t *testing.T) {
+1723
+13 13:		expectedResult string
+1724
+14 14:	}{
+1725
+15 15:		{
+1726
+-16   :			name:           "Success - HPECC",
+1727
++   16:			name:           "Failure - Invalid Country Code Error",
+1728
+17 17:			slug:           "HPECC",
+1729
+18 18:			expectedResult: "R6Z73AAE",
+1730
+19 19:		},
+1731
+-20   :		{
+1732
+-21   :			name:           "Success - BAR",
+1733
+-22   :			slug:           "BAR",
+1734
+-23   :			expectedResult: "R7A23AAE",
+1735
+-24   :		},
+1736
+-25   :		{
+1737
+-26   :			name:           "Success - SFM",
+1738
+-27   :			slug:           "SFM",
+1739
+-28   :			expectedResult: "R9R11AAE",
+1740
+-29   :		},
+1741
+-30   :		{
+1742
+-31   :			name:           "Success - MLDE",
+1743
+-32   :			slug:           "MLDE",
+1744
+-33   :			expectedResult: "S0Z12SRK",
+1745
+-34   :		},
+1746
+-35   :		{
+1747
+-36   :			name:           "Success - DATASVS",
+1748
+-37   :			slug:           "DATASVS",
+1749
+-38   :			expectedResult: "S1S62AAE",
+1750
+-39   :		},
+1751
+40 20:	}
+1752
+41 21:	for _, tt := range tests {
+1753
+42 22:		t.Run(tt.name, func(t *testing.T) {
+1754
+diff --git a/internal/models-validator/validator.go b/internal/models-validator/validator.go
+1755
+index 25b0db865..1fb53ac1c 100644
+1756
+--- a/internal/models-validator/validator.go
+1757
++++ b/internal/models-validator/validator.go
+1758
+@@ -4,7 +4,7 @@ import (
+1759
+4 4:	"github.com/go-playground/validator/v10"
+1760
+5 5:
+1761
+6 6:	"github.com/glcp/qtc/internal/utils"
+1762
+-7  :)
+1763
++  7:
+1764
+8 8:
+1765
+9 9:// SetupRequestBodyValidator initializes the validator and registers custom validators
+1766
+10 10:func SetupRequestBodyValidator() *validator.Validate {
+1767
+diff --git a/internal/pkg/logging/logging.go b/internal/pkg/logging/logging.go
+1768
+index 98a5dbfe0..8dc6dd1ea 100644
+1769
+--- a/internal/pkg/logging/logging.go
+1770
++++ b/internal/pkg/logging/logging.go
+1771
+@@ -27,9 +27,8 @@ func AddStrValueToContextLogger(ctx context.Context, key, value string) context.
+1772
+27 27:// sent using Msg() or Send()
+1773
+28 28:func LogError(ctx context.Context, err ...string) *zerolog.Event {
+1774
+29 29:	event := log.Ctx(ctx).Error().Caller(1)
+1775
+-30  :	if len(err) == 0 {
+1776
+-31  :		return event
+1777
+-32  :	}
+1778
++  30:	len(err) == 0 {
+1779
++  31:
+1780
+33 32:
+1781
+34 33:	return event.Err(errors.New(err[0]))
+1782
+35 34:}
+1783
+@@ -37,7 +36,7 @@ func LogError(ctx context.Context, err ...string) *zerolog.Event {
+1784
+37 36:// LogWarn uses the context logger and returns a zerolog event that will be logged
+1785
+38 37:// to at the warn level and can be added to with the normal Event functions. It must be
+1786
+39 38:// sent using Msg() or Send()
+1787
+-40  :func LogWarn(ctx context.Context, err ...error) *zerolog.Event {
+1788
++  39:LogWarn(ctx context.Context, err ...error) *zerolog.Event {
+1789
+41 40:	event := log.Ctx(ctx).Warn().Caller(1)
+1790
+42 41:	if len(err) == 0 {
+1791
+43 42:		return event
+1792
+diff --git a/internal/pkg/models/metadata.go b/internal/pkg/models/metadata.go
+1793
+index 302c6e34d..fcc97a8e1 100644
+1794
+--- a/internal/pkg/models/metadata.go
+1795
++++ b/internal/pkg/models/metadata.go
+1796
+@@ -10,57 +10,43 @@ type FixedOptions struct {
+1797
+10 10:	FormIdProd       string `json:"formIdProd"`
+1798
+11 11:}
+1799
+12 12:type Validation struct {
+1800
+-13   :	Regex string `json:"regex,omitempty"`
+1801
++   13:	Regex string `json:"regex"`
+1802
+14 14:}
+1803
+15 15:type AllowedValues struct {
+1804
+-16   :	Name        string `json:"name,omitempty"`
+1805
+-17   :	Code        string `json:"code,omitempty"`
+1806
+-18   :	Description string `json:"description,omitempty"`
+1807
+-19   :	Index       int    `json:"index,omitempty"`
+1808
+-20   :	IsDefault   bool   `json:"isDefault,omitempty"`
+1809
+-21   :	I18nKey     string `json:"i18nKey,omitempty"`
+1810
++   16:	Name        string `json:"name"`
+1811
++   17:	Code        string `json:"code"`
+1812
++   18:	Description string `json:"description"`
+1813
++   19:	Index       int    `json:"index"`
+1814
++   20:	IsDefault   bool   `json:"isDefault"`
+1815
+22 21:}
+1816
+23 22:type Options struct {
+1817
+-24   :	Name              string          `json:"name,omitempty"`
+1818
+-25   :	DisplayName       string          `json:"displayName,omitempty"`
+1819
+-26   :	CharacteristicKey string          `json:"characteristicKey,omitempty"`
+1820
+-27   :	Description       string          `json:"description,omitempty"`
+1821
+-28   :	DetailDescription string          `json:"detailDescription,omitempty"`
+1822
++   23:	Name              string          `json:"name"`
+1823
++   24:	DisplayName       string          `json:"displayName"`
+1824
++   25:	CharacteristicKey string          `json:"characteristicKey"`
+1825
++   26:	Description       string          `json:"description"`
+1826
++   27:	DetailDescription string          `json:"detailDescription"`
+1827
+29 28:	Type              string          `json:"type"`
+1828
+-30   :	Validation        *Validation     `json:"validation,omitempty"`
+1829
++   29:	Validation        Validation      `json:"validation,omitempty"`
+1830
+31 30:	AllowedValues     []AllowedValues `json:"allowedValues,omitempty"`
+1831
+32 31:	Index             int             `json:"index"`
+1832
+33 32:	UserVisibility    bool            `json:"userVisibility"`
+1833
+34 33:	Mandatory         bool            `json:"mandatory,omitempty"`
+1834
+-35   :	Heading           *Heading        `json:"heading,omitempty"`
+1835
+-36   :	I18nKey           string          `json:"i18nKey,omitempty"`
+1836
+-37   :	Subtitle          *Subtitle       `json:"subtitle,omitempty"`
+1837
+38 34:}
+1838
+39 35:type MarketplaceInfo struct {
+1839
+-40   :	Sku            string        `json:"sku"`
+1840
+-41   :	Description    string        `json:"description,omitempty"`
+1841
+-42   :	FixedOptions   *FixedOptions `json:"fixed-options,omitempty"` // nolint: tagliatelle
+1842
+-43   :	Options        []Options     `json:"options"`
+1843
+-44   :	HeaderTestI18n string        `json:"headerTextI18nKey"`
+1844
+-45   :	FooterTestI18n string        `json:"footerTextI18nKey"`
+1845
+-46   :}
+1846
+-47   :type Heading struct {
+1847
+-48   :	DisplayName string `json:"displayName,omitempty"`
+1848
+-49   :	I18nKey     string `json:"i18nKey,omitempty"`
+1849
+-50   :}
+1850
+-51   :type Subtitle struct {
+1851
+-52   :	DisplayName string `json:"displayName,omitempty"`
+1852
+-53   :	I18nKey     string `json:"i18nKey,omitempty"`
+1853
++   36:	Sku          string       `json:"sku"`
+1854
++   37:	Description  string       `json:"description"`
+1855
++   38:	FixedOptions FixedOptions `json:"fixed-options"` // nolint: tagliatelle
+1856
++   39:	Options      []Options    `json:"options"`
+1857
+54 40:}
+1858
+55 41:type (
+1859
+56 42:	Metering struct{}
+1860
+57 43:	Metadata struct {
+1861
+-58   :		MarketplaceInfo *MarketplaceInfo `json:"marketplaceInfo"`
+1862
+-59   :		Metering        []Metering       `json:"metering,omitempty"`
+1863
++   44:		MarketplaceInfo MarketplaceInfo `json:"marketplaceInfo"`
+1864
++   45:		Metering        []Metering      `json:"metering"`
+1865
+60 46:	}
+1866
+61 47:)
+1867
+62 48:
+1868
+63 49:type Plan struct {
+1869
+-64   :	ID       string    `json:"id"`
+1870
+-65   :	Metadata *Metadata `json:"metadata"`
+1871
++   50:	ID       string   `json:"id"`
+1872
++   51:	Metadata Metadata `json:"metadata"`
+1873
+66 52:}
+1874
+diff --git a/sonar-project.properties b/sonar-project.properties
+1875
+index 8c97fc064..156cab1b2 100644
+1876
+--- a/sonar-project.properties
+1877
++++ b/sonar-project.properties
+1878
+@@ -4,9 +4,9 @@ sonar.projectVersion=1.0.0
+1879
+4 4:
+1880
+5 5:
+1881
+6 6:sonar.sources=./cmd,./internal
+1882
+-7  :sonar.exclusions=**/*_test.go,internal/constants/eval-catalog-metadata.go
+1883
++  7:sonar.exclusions=**/*_test.go
+1884
+8 8:
+1885
+9 9:sonar.tests=.
+1886
+10 10:sonar.test.inclusions=**/*_test.go
+1887
+11 11:sonar.coverage.exclusions=internal/utils/launch_darkly_util.go
+1888
+-12  :sonar.go.coverage.reportPaths=bin/cov.out
+1889
++  12:sonar.go.coverage.reportPaths=bin/cov.out
+1890
+\ No newline at end of file
+1891
+printing {'.github/mci-variables.yaml': ['9', '9', '33', '33'], '.github/workflows/managed-ci-pr.yaml': ['17', '17'], 'README.md': ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '28'], 'cmd/qtc/main.go': ['6', '6'], 'internal/constants/eval-catalog-metadata.go': ['9', '10', '11', '12', '13', '14', '9', '10', '11', '12', '13', '14', '15', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92', '93', '94', '95', '96', '97', '98', '99', '100', '101', '102', '103', '93', '94', '95', '96', '97', '98', '99', '109', '110', '111', '112', '113', '114', '115', '116', '117', '105', '106', '107', '108', '109', '110', '111', '112', '123', '124', '125', '126', '127', '128', '129', '130', '131', '132', '117', '118', '119', '120', '121', '122', '123', '137', '138', '139', '140', '141', '142', '143', '144', '145', '129', '130', '131', '132', '133', '134', '135', '136', '137', '138', '139', '140', '141', '142', '143', '144', '145', '151', '152', '153', '154', '155', '156', '157', '158', '159', '160', '150', '151', '152', '153', '154', '155', '156', '157', '158', '159', '165', '166', '167', '168', '169', '170', '171', '172', '173', '174', '176', '163', '164', '165', '166', '179', '180', '181', '182', '183', '184', '169', '170', '171', '172', '173', '187', '188', '189', '190', '191', '176', '177', '178', '179', '180', '181', '194', '195', '196', '197', '198', '188', '189', '190', '191', '192', '193', '194', '195', '196', '197', '198', '199', '200', '201', '202', '203', '204', '205', '206', '207', '208', '209', '210', '211', '212', '213', '214', '215', '216', '217', '218', '219', '220', '221', '222', '223', '224', '225', '226', '227', '228', '229', '230', '231', '232', '233', '234', '235', '236', '237', '238', '239', '240', '241', '242', '243', '244', '245', '246', '247', '248', '249', '250', '251', '252', '253', '254', '255', '256', '257', '258', '259', '260', '261', '262', '263', '264', '265', '266', '267', '268', '269', '270', '271', '272', '273', '274', '275', '276', '277', '278', '279', '280', '281', '282', '283', '284', '285', '286', '287', '288', '289', '290', '291', '292', '293', '294', '295', '296', '297', '298', '299', '300', '301', '302', '303', '304', '305', '306', '307', '308', '309', '310', '311', '312', '313', '314', '315', '316', '317', '318', '319', '320', '321', '322', '323', '324', '325', '326', '327', '328', '329', '330', '331', '332', '333', '334', '335', '336', '337', '338', '339', '340', '341', '342', '343', '344', '345', '346', '347', '348', '349', '350', '351', '352', '353', '354', '355', '356', '357', '358', '359', '360', '361', '362', '363', '364', '365', '366', '367', '368', '369', '370', '371', '372', '373', '374', '375', '376', '377', '378', '379', '380', '381', '382', '383', '384', '385', '386', '387', '388', '389', '390', '391', '392', '393', '394', '395', '396', '397', '398', '399', '400', '401', '402', '403', '404', '405', '406', '407', '408', '409', '410', '411', '412', '413', '414', '415', '416', '417', '418', '419', '420', '421', '422', '423', '424', '425', '426', '427', '428', '429', '430', '431', '432', '433', '434', '435', '436', '437', '438', '439', '440', '441', '442', '443', '444', '445', '446', '447', '448', '449', '450', '451', '452', '453', '454', '455', '456', '457', '458', '459', '460', '461', '462', '463', '464', '465', '466', '467', '468', '469', '470', '471', '472', '473', '474', '475', '476', '477', '478', '479', '480', '481', '482', '483', '484', '485', '486', '487', '488', '489', '490', '491', '492', '493', '494', '495', '496', '497', '498', '499', '500', '501', '502', '503', '504', '505', '506', '507', '508', '509', '510', '511', '512', '513', '514', '515', '516', '517', '518', '519', '520', '521', '522', '523', '524', '525', '526', '527', '528', '529', '530', '531', '532', '533', '534', '535', '536', '537', '538', '539', '540', '541', '542', '543', '544', '545', '546', '547', '548', '549', '550', '551', '552', '553', '554', '555', '556', '557', '558', '559', '560', '561', '562', '563', '564', '565', '566', '567', '568', '569', '570', '571', '572', '573', '574', '575', '576', '577', '578', '579', '580', '581', '582', '583', '584', '585', '586', '587', '588', '589', '590', '591', '592', '593', '594', '595', '596', '597', '598', '599', '600', '601', '602', '603', '604', '605', '606', '607', '608', '609', '610', '611', '612', '613', '614', '615', '616', '617', '618', '619', '620', '621', '622', '623', '624', '625', '626', '627', '628', '629', '630', '631', '632', '633', '634', '635', '636', '637', '638', '639', '640', '641', '642', '643', '644', '645', '646', '647', '648', '649', '650', '651', '652', '653', '654', '655', '656', '657', '658', '659', '660', '661', '662', '663', '664', '665', '666', '667', '668', '669', '670', '671', '672', '673', '674', '675', '676', '677', '678', '679', '680', '681', '682', '683', '684', '685', '686', '687', '688', '689', '690', '691', '692', '693', '694', '695', '696', '697', '698', '699', '700', '701', '702', '703', '704', '705', '706', '707', '708', '709', '710', '711', '712', '713', '714', '715', '716', '717', '718', '719', '720', '721', '722', '723', '724', '725', '726', '727', '728', '729', '730', '731', '732', '733', '734', '735', '736', '737', '738', '739', '740', '741', '742', '743', '744', '745', '746', '747', '748', '749', '750', '751', '752', '753', '754', '755', '756', '757', '758', '759', '760', '761', '762', '763', '764', '765', '766', '767', '768', '769', '770', '771', '772', '773', '774', '775', '776', '777', '778', '779', '780', '781', '782', '783', '784', '785', '786', '787', '788', '789', '790', '791', '792', '793', '794', '795', '796', '797', '798', '799', '800', '801', '802', '803', '804', '805', '806', '807', '808', '809', '810', '811', '812', '813', '814', '815', '816', '817', '818', '819', '820', '821', '822', '823', '824', '825', '826', '827', '828', '829', '830', '831', '832', '833', '834', '835', '836', '837', '838', '839', '840', '841', '842', '843', '844', '845', '846', '847', '848', '849', '850', '851', '852', '853', '854', '855', '856', '857', '858', '859', '860', '861', '862', '863', '864', '865', '866', '867', '868', '869', '870', '871', '872', '873', '874', '875', '876', '877', '878', '879', '880', '881', '882', '883', '884', '885', '886', '887', '888', '889', '890', '891', '892', '893', '894', '895', '896', '205', '206', '207', '208', '209', '210', '211', '212', '213', '214', '215', '216', '217', '218', '219', '220', '221', '222', '223', '224', '225', '898', '899', '900', '901', '902', '903', '910', '911', '912', '913', '914', '915', '233', '234', '235', '236', '237', '238', '239', '240', '241', '242', '243', '244', '245', '246', '247', '248', '249', '250', '251', '252', '253', '260'], 'internal/constants/eval-catalog-metadata_test.go': ['16', '16', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39'], 'internal/models-validator/validator.go': ['7', '7'], 'internal/pkg/logging/logging.go': ['30', '31', '32', '30', '31', '40', '39'], 'internal/pkg/models/metadata.go': ['13', '13', '16', '17', '18', '19', '20', '21', '16', '17', '18', '19', '20', '24', '25', '26', '27', '28', '23', '24', '25', '26', '27', '30', '29', '35', '36', '37', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '36', '37', '38', '39', '58', '59', '44', '45', '64', '65', '50', '51'], 'sonar-project.properties': ['7', '7', '12', '12']}
+1892
+printing error_dict {'.github/mci-variables.yaml': [], '.github/workflows/managed-ci-pr.yaml': [], 'README.md': [], 'cmd/qtc/main.go': [], 'internal/constants/eval-catalog-metadata.go': [], 'internal/constants/eval-catalog-metadata_test.go': [], 'internal/models-validator/validator.go': [], 'internal/pkg/logging/logging.go': [], 'internal/pkg/models/metadata.go': [], 'sonar-project.properties': []}
+1893
+printing error_dict after lint log file {'.github/mci-variables.yaml': [], '.github/workflows/managed-ci-pr.yaml': [], 'README.md': [], 'cmd/qtc/main.go': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 'internal/constants/eval-catalog-metadata.go': [], 'internal/constants/eval-catalog-metadata_test.go': [], 'internal/models-validator/validator.go': [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], 'internal/pkg/logging/logging.go': [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44], 'internal/pkg/models/metadata.go': [], 'sonar-project.properties': []}
+1894
+{}

@@ -1,0 +1,43 @@
+default_tag_status_context:
+  tags/v1.1:
+    - 'tag1'
+    - 'tag1.1'
+  tags/v1.2:
+    - 'tag2'
+    - 'tag2.1'
+    - 'tag2.2'
+  tags/v1.3:
+    - 'tag3'
+    - 'tag3.1'
+    - 'tag3.2'
+language:
+  python:
+    - 'python'
+    - 'py'
+  java:
+    - 'java'
+    - 'jdk'
+    - 'jre'
+  golang:
+    - 'golang'
+    - 'go'
+  python_lib:
+    - 'python_lib'
+    - 'lib'
+  shell:
+    - 'shell'
+    - 'linux'
+common-secrets:
+  - 'OWNER'
+  - 'USER'
+specific-secrets:
+  ft-on-pr:
+    - "ABC"
+    - "EFG"
+  ft-on-issue:
+    - 'PQR'
+    - 'XYZ'
+required_status_check_contexts:
+  - 'mci-check / secret-scanner / Secret_Scan'
+  - 'mci-check / malware-scanner'
+lang_variable: 'GH_REPO_LANG'

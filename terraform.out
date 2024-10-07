@@ -1,0 +1,744 @@
+
+x/usr/bin/docker run --name ghcriosuperlintersuperlinterslimv5_223ac4 --label f1ef1b --workdir /github/workspace --rm -e "PR_VALIDATION" -e "SONAR_HOST_URL" -e "UNIT_TEST_WORKSPACE_BACKUP" -e "GITHUB_APP_TOKEN" -e "VALIDATE_ALL_CODEBASE" -e "FILTER_REGEX_EXCLUDE" -e "DEFAULT_BRANCH" -e "GITHUB_TOKEN" -e "CREATE_LOG_FILE" -e "LOG_FILE" -e "HOME" -e "GITHUB_JOB" -e "GITHUB_REF" -e "GITHUB_SHA" -e "GITHUB_REPOSITORY" -e "GITHUB_REPOSITORY_OWNER" -e "GITHUB_REPOSITORY_OWNER_ID" -e "GITHUB_RUN_ID" -e "GITHUB_RUN_NUMBER" -e "GITHUB_RETENTION_DAYS" -e "GITHUB_RUN_ATTEMPT" -e "GITHUB_REPOSITORY_ID" -e "GITHUB_ACTOR_ID" -e "GITHUB_ACTOR" -e "GITHUB_TRIGGERING_ACTOR" -e "GITHUB_WORKFLOW" -e "GITHUB_HEAD_REF" -e "GITHUB_BASE_REF" -e "GITHUB_EVENT_NAME" -e "GITHUB_SERVER_URL" -e "GITHUB_API_URL" -e "GITHUB_GRAPHQL_URL" -e "GITHUB_REF_NAME" -e "GITHUB_REF_PROTECTED" -e "GITHUB_REF_TYPE" -e "GITHUB_WORKFLOW_REF" -e "GITHUB_WORKFLOW_SHA" -e "GITHUB_WORKSPACE" -e "GITHUB_ACTION" -e "GITHUB_EVENT_PATH" -e "GITHUB_ACTION_REPOSITORY" -e "GITHUB_ACTION_REF" -e "GITHUB_PATH" -e "GITHUB_ENV" -e "GITHUB_STEP_SUMMARY" -e "GITHUB_STATE" -e "GITHUB_OUTPUT" -e "RUNNER_OS" -e "RUNNER_ARCH" -e "RUNNER_NAME" -e "RUNNER_ENVIRONMENT" -e "RUNNER_TOOL_CACHE" -e "RUNNER_TEMP" -e "RUNNER_WORKSPACE" -e "ACTIONS_RUNTIME_URL" -e "ACTIONS_RUNTIME_TOKEN" -e "ACTIONS_CACHE_URL" -e "ACTIONS_RESULTS_URL" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" -v "/home/runner/work/_temp/_runner_file_commands":"/github/file_commands" -v "/home/runner/work/ccp-terraform-aws-alb/ccp-terraform-aws-alb":"/github/workspace" ghcr.io/super-linter/super-linter:slim-v5
+14
+--------------------------------------------------------------------------------
+15
+
+16
+                              /@@#///////@@/(@//@%/(@.@(       @@
+17
+                          @@//////////////////////////////#*  @@@
+18
+                        @////@//(///////////@@@@@///@//@/@**//@@(
+19
+                      @///////@///////////////@@@@    (           @,
+20
+                     @/(&/@////////////////////                     @
+21
+                    @////////////////////////@@                      @
+22
+                  @%////////(//////////%/////&@            @@       *,@           ______________
+23
+             @@@@@/@/#/////(&//////////////////                       .@         /              \
+24
+        *@@@@@.    .%///(//@//////////////////&.   .@@,                 @%      / Don't mind me  \
+25
+      @@%           .&@&&/@.@//&/////(//////////    @@@@@@@@@         .. &@    / I'm just looking \
+26
+    @@%               @@@@@   @&/////////////////#   @/       V  @@/ ,@@@ @   <  for some trash... |
+27
+@@@%                   @@@@        .%@@@@//////#@ @   @@         @     .,.     \__________________/
+28
+                                          @@@/@(  (@@@@% @/\      %
+29
+                                           @@@@(    .     .@@/\   #
+30
+                                             @                  %@%
+31
+
+32
+--------------------------------------------------------------------------------
+33
+2024-04-01 16:02:29 [INFO]   ---------------------------------------------
+34
+2024-04-01 16:02:29 [INFO]   --- GitHub Actions Multi Language Linter ----
+35
+2024-04-01 16:02:29 [INFO]    - Image Creation Date:[2023-12-02T08:58:52Z]
+36
+2024-04-01 16:02:29 [INFO]    - Image Revision:[a8150b40c89574adb5f68bf9502b890a236a06b3]
+37
+2024-04-01 16:02:29 [INFO]    - Image Version:[a8150b40c89574adb5f68bf9502b890a236a06b3]
+38
+2024-04-01 16:02:29 [INFO]   ---------------------------------------------
+39
+2024-04-01 16:02:29 [INFO]   ---------------------------------------------
+40
+2024-04-01 16:02:29 [INFO]   The Super-Linter source code can be found at:
+41
+2024-04-01 16:02:29 [INFO]    - https://github.com/super-linter/super-linter
+42
+2024-04-01 16:02:29 [INFO]   ---------------------------------------------
+43
+Removing Languages from LANGUAGE_ARRAY for slim image...
+44
+found item:[ARM], removing Language...
+45
+found item:[CSHARP], removing Language...
+46
+found item:[ENV], removing Language...
+47
+found item:[POWERSHELL], removing Language...
+48
+found item:[RUST_2015], removing Language...
+49
+found item:[RUST_2018], removing Language...
+50
+found item:[RUST_2021], removing Language...
+51
+found item:[RUST_CLIPPY], removing Language...
+52
+Removing Linters from LINTER_NAMES_ARRAY for slim image...
+53
+found item:[ARM], removing linter...
+54
+found item:[CSHARP], removing linter...
+55
+found item:[ENV], removing linter...
+56
+found item:[POWERSHELL], removing linter...
+57
+found item:[RUST_2015], removing linter...
+58
+found item:[RUST_2018], removing linter...
+59
+found item:[RUST_2021], removing linter...
+60
+found item:[RUST_CLIPPY], removing linter...
+61
+2024-04-01 16:02:29 [INFO]   --------------------------------------------
+62
+2024-04-01 16:02:29 [INFO]   Gathering GitHub information...
+63
+2024-04-01 16:02:29 [INFO]   Successfully found:[GITHUB_SHA], value:[cc2126a619a168ab7696b42dad0242445c32e937]
+64
+2024-04-01 16:02:29 [INFO]   Successfully found:[GITHUB_WORKSPACE], value:[/github/workspace]
+65
+2024-04-01 16:02:29 [INFO]   Successfully found:[GITHUB_EVENT_PATH], value:[/github/workflow/event.json]
+66
+2024-04-01 16:02:29 [INFO]   Successfully found:[GITHUB_ORG], value:[glcp]
+67
+2024-04-01 16:02:29 [INFO]   Successfully found:[GITHUB_REPO], value:[ccp-terraform-aws-alb]
+68
+2024-04-01 16:02:29 [INFO]   Successfully found:[GITHUB_TOKEN]
+69
+2024-04-01 16:02:29 [INFO]   Successfully found:[GITHUB_REPOSITORY], value:[glcp/ccp-terraform-aws-alb]
+70
+2024-04-01 16:02:29 [INFO]   Successfully found:[GITHUB_RUN_ID], value:[8510313874]
+71
+2024-04-01 16:02:29 [INFO]   --------------------------------------------
+72
+2024-04-01 16:02:29 [INFO]   Gathering user validation information...
+73
+2024-04-01 16:02:29 [INFO]   - Only validating [new], or [edited] files in code base...
+74
+You are not currently on a branch.
+75
+Please specify which branch you want to merge with.
+76
+See git-pull(1) for details.
+77
+
+78
+    git pull <remote> <branch>
+79
+
+80
+2024-04-01 16:02:33 [INFO]   ---------------------------------
+81
+2024-04-01 16:02:33 [INFO]   ------ File list to check: ------
+82
+2024-04-01 16:02:33 [INFO]   ---------------------------------
+83
+2024-04-01 16:02:34 [INFO]   ----------------------------------------------
+84
+2024-04-01 16:02:34 [INFO]   Successfully gathered list of files...
+85
+2024-04-01 16:02:34 [INFO]   Detected TFLint Language files to lint.
+86
+2024-04-01 16:02:34 [INFO]   Trying to install the TFLint init inside:[]
+87
+2024-04-01 16:02:34 [INFO]   Successfully ran:[tflint --init] in workspace:[]
+88
+2024-04-01 16:02:34 [INFO]   
+89
+2024-04-01 16:02:34 [INFO]   ----------------------------------------------
+90
+2024-04-01 16:02:34 [INFO]   ----------------------------------------------
+91
+2024-04-01 16:02:34 [INFO]   Linting [GITHUB_ACTIONS] files...
+92
+2024-04-01 16:02:34 [INFO]   ----------------------------------------------
+93
+2024-04-01 16:02:34 [INFO]   ----------------------------------------------
+94
+2024-04-01 16:02:34 [INFO]   ---------------------------
+95
+2024-04-01 16:02:34 [INFO]   File:[/github/workspace/.github/workflows/managed-ci-pr.yaml]
+96
+2024-04-01 16:02:34 [INFO]    - File:[managed-ci-pr.yaml] was linted with [actionlint] successfully
+97
+2024-04-01 16:02:34 [INFO]   
+98
+2024-04-01 16:02:34 [INFO]   ----------------------------------------------
+99
+2024-04-01 16:02:34 [INFO]   ----------------------------------------------
+100
+2024-04-01 16:02:34 [INFO]   Linting [GITLEAKS] files...
+101
+2024-04-01 16:02:34 [INFO]   ----------------------------------------------
+102
+2024-04-01 16:02:34 [INFO]   ----------------------------------------------
+103
+2024-04-01 16:02:34 [INFO]   ---------------------------
+104
+2024-04-01 16:02:34 [INFO]   File:[/github/workspace/.github/mci-variables.yaml]
+105
+2024-04-01 16:02:34 [INFO]    - File:[mci-variables.yaml] was linted with [gitleaks] successfully
+106
+2024-04-01 16:02:34 [INFO]      - Command output:
+107
+------
+108
+4:02PM INF scan completed in 1.73ms
+109
+4:02PM INF no leaks found
+110
+------
+111
+2024-04-01 16:02:34 [INFO]   ---------------------------
+112
+2024-04-01 16:02:34 [INFO]   File:[/github/workspace/.github/workflows/managed-ci-pr.yaml]
+113
+2024-04-01 16:02:34 [INFO]    - File:[managed-ci-pr.yaml] was linted with [gitleaks] successfully
+114
+2024-04-01 16:02:34 [INFO]      - Command output:
+115
+------
+116
+4:02PM INF scan completed in 2.48ms
+117
+4:02PM INF no leaks found
+118
+------
+119
+2024-04-01 16:02:34 [INFO]   ---------------------------
+120
+2024-04-01 16:02:35 [INFO]   File:[/github/workspace/resources/r53.tf]
+121
+2024-04-01 16:02:35 [INFO]    - File:[r53.tf] was linted with [gitleaks] successfully
+122
+2024-04-01 16:02:35 [INFO]      - Command output:
+123
+------
+124
+4:02PM INF scan completed in 1.94ms
+125
+4:02PM INF no leaks found
+126
+------
+127
+2024-04-01 16:02:35 [INFO]   ---------------------------
+128
+2024-04-01 16:02:35 [INFO]   File:[/github/workspace/resources/waf.tf]
+129
+2024-04-01 16:02:35 [INFO]    - File:[waf.tf] was linted with [gitleaks] successfully
+130
+2024-04-01 16:02:35 [INFO]      - Command output:
+131
+------
+132
+4:02PM INF scan completed in 1.55ms
+133
+4:02PM INF no leaks found
+134
+------
+135
+2024-04-01 16:02:35 [INFO]   
+136
+2024-04-01 16:02:35 [INFO]   ----------------------------------------------
+137
+2024-04-01 16:02:35 [INFO]   ----------------------------------------------
+138
+2024-04-01 16:02:35 [INFO]   Linting [JSCPD] files...
+139
+2024-04-01 16:02:35 [INFO]   ----------------------------------------------
+140
+2024-04-01 16:02:35 [INFO]   ----------------------------------------------
+141
+2024-04-01 16:02:35 [INFO]   ---------------------------
+142
+2024-04-01 16:02:35 [INFO]   File:[/github/workspace/.github/mci-variables.yaml]
+143
+2024-04-01 16:02:36 [INFO]    - File:[mci-variables.yaml] was linted with [jscpd] successfully
+144
+2024-04-01 16:02:36 [INFO]      - Command output:
+145
+------
+146
+Detection time:: 1.13ms
+147
+------
+148
+2024-04-01 16:02:36 [INFO]   ---------------------------
+149
+2024-04-01 16:02:36 [INFO]   File:[/github/workspace/.github/workflows/managed-ci-pr.yaml]
+150
+2024-04-01 16:02:36 [INFO]    - File:[managed-ci-pr.yaml] was linted with [jscpd] successfully
+151
+2024-04-01 16:02:36 [INFO]      - Command output:
+152
+------
+153
+Found 0 clones.
+154
+Detection time:: 20.091ms
+155
+------
+156
+2024-04-01 16:02:36 [INFO]   ---------------------------
+157
+2024-04-01 16:02:36 [INFO]   File:[/github/workspace/resources/r53.tf]
+158
+2024-04-01 16:02:37 [INFO]    - File:[r53.tf] was linted with [jscpd] successfully
+159
+2024-04-01 16:02:37 [INFO]      - Command output:
+160
+------
+161
+Detection time:: 0.837ms
+162
+------
+163
+2024-04-01 16:02:37 [INFO]   ---------------------------
+164
+2024-04-01 16:02:37 [INFO]   File:[/github/workspace/resources/waf.tf]
+165
+2024-04-01 16:02:37 [INFO]    - File:[waf.tf] was linted with [jscpd] successfully
+166
+2024-04-01 16:02:37 [INFO]      - Command output:
+167
+------
+168
+Detection time:: 0.854ms
+169
+------
+170
+2024-04-01 16:02:38 [INFO]   
+171
+2024-04-01 16:02:38 [INFO]   ----------------------------------------------
+172
+2024-04-01 16:02:38 [INFO]   ----------------------------------------------
+173
+2024-04-01 16:02:38 [INFO]   Linting [NATURAL_LANGUAGE] files...
+174
+2024-04-01 16:02:38 [INFO]   ----------------------------------------------
+175
+2024-04-01 16:02:38 [INFO]   ----------------------------------------------
+176
+2024-04-01 16:02:38 [INFO]   ---------------------------
+177
+2024-04-01 16:02:38 [INFO]   File:[/github/workspace/.github/mci-variables.yaml]
+178
+2024-04-01 16:02:38 [INFO]    - File:[mci-variables.yaml] was linted with [textlint] successfully
+179
+2024-04-01 16:02:38 [INFO]   ---------------------------
+180
+2024-04-01 16:02:38 [INFO]   File:[/github/workspace/.github/workflows/managed-ci-pr.yaml]
+181
+2024-04-01 16:02:39 [INFO]    - File:[managed-ci-pr.yaml] was linted with [textlint] successfully
+182
+2024-04-01 16:02:39 [INFO]   ---------------------------
+183
+2024-04-01 16:02:39 [INFO]   File:[/github/workspace/resources/r53.tf]
+184
+2024-04-01 16:02:39 [INFO]    - File:[r53.tf] was linted with [textlint] successfully
+185
+2024-04-01 16:02:39 [INFO]   ---------------------------
+186
+2024-04-01 16:02:39 [INFO]   File:[/github/workspace/resources/waf.tf]
+187
+2024-04-01 16:02:39 [INFO]    - File:[waf.tf] was linted with [textlint] successfully
+188
+2024-04-01 16:02:40 [INFO]   
+189
+2024-04-01 16:02:40 [INFO]   ----------------------------------------------
+190
+2024-04-01 16:02:40 [INFO]   ----------------------------------------------
+191
+2024-04-01 16:02:40 [INFO]   Linting [TERRAFORM_FMT] files...
+192
+2024-04-01 16:02:40 [INFO]   ----------------------------------------------
+193
+2024-04-01 16:02:40 [INFO]   ----------------------------------------------
+194
+2024-04-01 16:02:40 [INFO]   ---------------------------
+195
+2024-04-01 16:02:40 [INFO]   File:[/github/workspace/resources/r53.tf]
+196
+2024-04-01 16:02:40 [ERROR]   Found errors in [terraform] linter!
+197
+2024-04-01 16:02:40 [ERROR]   Error code: 2. Command output:
+198
+------
+199
+╷
+200
+│ Error: Invalid 'for' expression
+201
+│ 
+202
+│   on resources/r53.tf line 29, in resource "aws_acm_certificate" "alb_cert":
+203
+│   21:   for_each = {
+204
+│   22:     for dvo in aws_acm_certificate.alb_cert.domain_validation_options : dvo.domain_name => {
+205
+│   23:       name   = dvo.resource_record_name
+206
+│   24:       record = dvo.resource_record_value
+207
+│   25:       type   = dvo.resource_record_type
+208
+│   26:   }
+209
+│   27:   allow_overwrite = true
+210
+│ 
+211
+│ Extra characters after the end of the 'for' expression.
+212
+╵
+213
+
+214
+------
+215
+2024-04-01 16:02:40 [INFO]   ---------------------------
+216
+2024-04-01 16:02:40 [INFO]   File:[/github/workspace/resources/waf.tf]
+217
+2024-04-01 16:02:40 [ERROR]   Found errors in [terraform] linter!
+218
+2024-04-01 16:02:40 [ERROR]   Error code: 2. Command output:
+219
+------
+220
+╷
+221
+│ Error: Unclosed configuration block
+222
+│ 
+223
+│   on resources/waf.tf line 35, in resource "aws_wafv2_web_acl" "WafWebAcl":
+224
+│   35:   rule {
+225
+│ 
+226
+│ There is no closing brace for this block before the end of the file. This
+227
+│ may be caused by incorrect brace nesting elsewhere in this file.
+228
+╵
+229
+
+230
+------
+231
+2024-04-01 16:02:40 [INFO]   
+232
+2024-04-01 16:02:41 [INFO]   ----------------------------------------------
+233
+2024-04-01 16:02:41 [INFO]   ----------------------------------------------
+234
+2024-04-01 16:02:41 [INFO]   Linting [TERRAFORM_TFLINT] files...
+235
+2024-04-01 16:02:41 [INFO]   ----------------------------------------------
+236
+2024-04-01 16:02:41 [INFO]   ----------------------------------------------
+237
+2024-04-01 16:02:41 [INFO]   ---------------------------
+238
+2024-04-01 16:02:41 [INFO]   File:[/github/workspace/resources/r53.tf]
+239
+╷
+240
+│ Error: Invalid 'for' expression
+241
+│ 
+242
+│   on r53.tf line 29, in resource "aws_acm_certificate" "alb_cert":
+243
+│   21:   for_each = {
+244
+│   22:     for dvo in aws_acm_certificate.alb_cert.domain_validation_options : dvo.domain_name => {
+245
+│   23:       name   = dvo.resource_record_name
+246
+│   24:       record = dvo.resource_record_value
+247
+│   25:       type   = dvo.resource_record_type
+248
+│   26:   }
+249
+│   27:   allow_overwrite = true
+250
+│ 
+251
+│ Extra characters after the end of the 'for' expression.
+252
+╵
+253
+
+254
+╷
+255
+│ Error: Unclosed configuration block
+256
+│ 
+257
+│   on waf.tf line 35, in resource "aws_wafv2_web_acl" "WafWebAcl":
+258
+│   35:   rule {
+259
+│ 
+260
+│ There is no closing brace for this block before the end of the file. This
+261
+│ may be caused by incorrect brace nesting elsewhere in this file.
+262
+╵
+263
+
+264
+2024-04-01 16:02:41 [ERROR]   Found errors in [tflint] linter!
+265
+2024-04-01 16:02:41 [ERROR]   Error code: 1. Command output:
+266
+------
+267
+Failed to load configurations; r53.tf:29,3-18: Invalid 'for' expression; Extra characters after the end of the 'for' expression., and 1 other diagnostic(s):
+268
+
+269
+Error: Invalid 'for' expression
+270
+
+271
+  on r53.tf line 29, in resource "aws_acm_certificate" "alb_cert":
+272
+  21:   for_each = {
+273
+  22:     for dvo in aws_acm_certificate.alb_cert.domain_validation_options : dvo.domain_name => {
+274
+  23:       name   = dvo.resource_record_name
+275
+  24:       record = dvo.resource_record_value
+276
+  25:       type   = dvo.resource_record_type
+277
+  27:   }
+278
+  29:   allow_overwrite = true
+279
+
+280
+Extra characters after the end of the 'for' expression.
+281
+
+282
+Error: Unclosed configuration block
+283
+
+284
+  on waf.tf line 35, in resource "aws_wafv2_web_acl" "WafWebAcl":
+285
+  35:   rule {
+286
+
+287
+There is no closing brace for this block before the end of the file. This may be caused by incorrect brace nesting elsewhere in this file.
+288
+------
+289
+2024-04-01 16:02:41 [INFO]   ---------------------------
+290
+2024-04-01 16:02:41 [INFO]   File:[/github/workspace/resources/waf.tf]
+291
+2024-04-01 16:02:41 [ERROR]   Found errors in [tflint] linter!
+292
+2024-04-01 16:02:41 [ERROR]   Error code: 1. Command output:
+293
+------
+294
+Failed to load configurations; r53.tf:29,3-18: Invalid 'for' expression; Extra characters after the end of the 'for' expression., and 1 other diagnostic(s):
+295
+
+296
+Error: Invalid 'for' expression
+297
+
+298
+  on r53.tf line 29, in resource "aws_acm_certificate" "alb_cert":
+299
+  21:   for_each = {
+300
+  22:     for dvo in aws_acm_certificate.alb_cert.domain_validation_options : dvo.domain_name => {
+301
+  23:       name   = dvo.resource_record_name
+302
+  24:       record = dvo.resource_record_value
+303
+  25:       type   = dvo.resource_record_type
+304
+  27:   }
+305
+  29:   allow_overwrite = true
+306
+
+307
+Extra characters after the end of the 'for' expression.
+308
+
+309
+Error: Unclosed configuration block
+310
+
+311
+  on waf.tf line 35, in resource "aws_wafv2_web_acl" "WafWebAcl":
+312
+  35:   rule {
+313
+
+314
+There is no closing brace for this block before the end of the file. This may be caused by incorrect brace nesting elsewhere in this file.
+315
+------
+316
+2024-04-01 16:02:41 [INFO]   
+317
+2024-04-01 16:02:41 [INFO]   ----------------------------------------------
+318
+2024-04-01 16:02:41 [INFO]   ----------------------------------------------
+319
+2024-04-01 16:02:41 [INFO]   Linting [TERRAFORM_TERRASCAN] files...
+320
+2024-04-01 16:02:41 [INFO]   ----------------------------------------------
+321
+2024-04-01 16:02:41 [INFO]   ----------------------------------------------
+322
+2024-04-01 16:02:41 [INFO]   ---------------------------
+323
+2024-04-01 16:02:41 [INFO]   File:[/github/workspace/resources/r53.tf]
+324
+2024-04-01 16:02:44 [ERROR]   Found errors in [terrascan] linter!
+325
+2024-04-01 16:02:44 [ERROR]   Error code: 1. Command output:
+326
+------
+327
+2024-04-01T16:02:44.658Z	error	cli/run.go:141	scan run failed{error 26 0  failed to load iac file '/github/workspace/resources/r53.tf'. error:
+328
+/github/workspace/resources/r53.tf:29,3-18: Invalid 'for' expression; Extra characters after the end of the 'for' expression.
+329
+}
+330
+------
+331
+2024-04-01 16:02:44 [INFO]   ---------------------------
+332
+2024-04-01 16:02:44 [INFO]   File:[/github/workspace/resources/waf.tf]
+333
+2024-04-01 16:02:44 [ERROR]   Found errors in [terrascan] linter!
+334
+2024-04-01 16:02:44 [ERROR]   Error code: 1. Command output:
+335
+------
+336
+2024-04-01T16:02:44.731Z	error	cli/run.go:141	scan run failed{error 26 0  failed to load iac file '/github/workspace/resources/waf.tf'. error:
+337
+/github/workspace/resources/waf.tf:114,1-1: Argument or block definition required; An argument or block definition is required here.
+338
+}
+339
+------
+340
+2024-04-01 16:02:44 [INFO]   
+341
+2024-04-01 16:02:44 [INFO]   ----------------------------------------------
+342
+2024-04-01 16:02:44 [INFO]   ----------------------------------------------
+343
+2024-04-01 16:02:44 [INFO]   Linting [YAML] files...
+344
+2024-04-01 16:02:44 [INFO]   ----------------------------------------------
+345
+2024-04-01 16:02:44 [INFO]   ----------------------------------------------
+346
+2024-04-01 16:02:45 [INFO]   ---------------------------
+347
+2024-04-01 16:02:45 [INFO]   File:[/github/workspace/.github/mci-variables.yaml]
+348
+2024-04-01 16:02:45 [INFO]    - File:[mci-variables.yaml] was linted with [yamllint] successfully
+349
+2024-04-01 16:02:45 [INFO]      - Command output:
+350
+------
+351
+Warning: orkspace/.github/mci-variables.yaml:1:1: [warning] missing document start "---" (document-start)
+352
+------
+353
+2024-04-01 16:02:45 [INFO]   ---------------------------
+354
+2024-04-01 16:02:45 [INFO]   File:[/github/workspace/.github/workflows/managed-ci-pr.yaml]
+355
+2024-04-01 16:02:45 [INFO]    - File:[managed-ci-pr.yaml] was linted with [yamllint] successfully
+356
+2024-04-01 16:02:45 [INFO]      - Command output:
+357
+------
+358
+Warning: orkspace/.github/workflows/managed-ci-pr.yaml:1:1: [warning] missing document start "---" (document-start)
+359
+------
+360
+2024-04-01 16:02:45 [INFO]   ----------------------------------------------
+361
+2024-04-01 16:02:45 [INFO]   ----------------------------------------------
+362
+2024-04-01 16:02:45 [INFO]   The script has completed
+363
+2024-04-01 16:02:45 [INFO]   ----------------------------------------------
+364
+2024-04-01 16:02:45 [INFO]   ----------------------------------------------
+365
+2024-04-01 16:02:45 [INFO]   ERROR! Failed to call GitHub Status API!
+366
+2024-04-01 16:02:45 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+367
+2024-04-01 16:02:45 [INFO]   ERROR! Failed to call GitHub Status API!
+368
+2024-04-01 16:02:45 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+369
+2024-04-01 16:02:46 [INFO]   ERROR! Failed to call GitHub Status API!
+370
+2024-04-01 16:02:46 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+371
+2024-04-01 16:02:46 [INFO]   ERROR! Failed to call GitHub Status API!
+372
+2024-04-01 16:02:46 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+373
+2024-04-01 16:02:46 [ERROR]   ERRORS FOUND in TERRAFORM_FMT:[2]
+374
+2024-04-01 16:02:46 [INFO]   ERROR! Failed to call GitHub Status API!
+375
+2024-04-01 16:02:46 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+376
+2024-04-01 16:02:46 [ERROR]   ERRORS FOUND in TERRAFORM_TFLINT:[2]
+377
+2024-04-01 16:02:47 [INFO]   ERROR! Failed to call GitHub Status API!
+378
+2024-04-01 16:02:47 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+379
+2024-04-01 16:02:47 [ERROR]   ERRORS FOUND in TERRAFORM_TERRASCAN:[2]
+380
+2024-04-01 16:02:47 [INFO]   ERROR! Failed to call GitHub Status API!
+381
+2024-04-01 16:02:47 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+382
+2024-04-01 16:02:47 [INFO]   ERROR! Failed to call GitHub Status API!
+383
+2024-04-01 16:02:47 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+384
+2024-04-01 16:02:47 [FATAL]   Exiting with errors found!

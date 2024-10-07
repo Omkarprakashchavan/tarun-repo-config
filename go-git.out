@@ -1,0 +1,2713 @@
+diff --git a/.github/mci-variables.yaml b/.github/mci-variables.yaml
+502
+index 83823e1d9..6148bb5f3 100644
+503
+--- a/.github/mci-variables.yaml
+504
++++ b/.github/mci-variables.yaml
+505
+@@ -6,7 +6,7 @@ APP_DIR: app
+506
+ 6 6:IMAGE_REGISTRIES:
+507
+ 7 7:  - quay.io
+508
+ 8 8:PR_VALIDATION: true
+509
+-9  :LINT_WORKSPACE_BACKUP: true
+510
++  9:LINT_WORKSPACE_BACKUP: false
+511
+ 10 10:UNIT_TEST_WORKSPACE_BACKUP: true
+512
+ 11 11:VERSION: '3.0'
+513
+ 12 12:SKIP_COREUPDATE: false
+514
+@@ -30,4 +30,4 @@ PRODUCTS:
+515
+ 30 30:    APP_NAME: qtc
+516
+ 31 31:    APP_ID: 05ae7afb-78a0-4bbf-bb13-917d642acea6
+517
+ 32 32:    REGISTRY: quay.io
+518
+-33  :    DOCKER_PUSH: true
+519
+\ No newline at end of file
+520
++  33:    DOCKER_PUSH: true
+521
+diff --git a/.github/workflows/managed-ci-pr.yaml b/.github/workflows/managed-ci-pr.yaml
+522
+index 1f4f4b68e..598e4313f 100644
+523
+--- a/.github/workflows/managed-ci-pr.yaml
+524
++++ b/.github/workflows/managed-ci-pr.yaml
+525
+@@ -14,7 +14,7 @@ jobs:
+526
+ 14 14:    secrets: inherit
+527
+ 15 15:  mci-lint:
+528
+ 16 16:    if: github.event.pull_request.user.login != 'dependabot[bot]'  
+529
+-17  :    uses: glcp/managed-ci-workflow/.github/workflows/mci-lint.yaml@v1.6.1
+530
++  17:    uses: glcp/managed-ci-workflow/.github/workflows/mci-lint.yaml@lint-test1
+531
+ 18 18:    secrets: inherit
+532
+ 19 19:    needs: mci-pre-lint
+533
+ 20 20:  mci-pre-test:
+534
+diff --git a/README.md b/README.md
+535
+index 0dddb59b3..28ce83f14 100644
+536
+--- a/README.md
+537
++++ b/README.md
+538
+@@ -1,5 +1,9 @@
+539
++  1:
+540
++  2:
+541
++  3:
+542
+ 1 4:# qtc
+543
+ 2 5:
+544
++  6:
+545
+ 3 7:qtc is a feature which shows recently released / to-be-released functionality on the platform.
+546
+ 4 8:This is a backend microservice to support that.
+547
+ 5 9:
+548
+diff --git a/cmd/qtc/main.go b/cmd/qtc/main.go
+549
+index 157023b31..4c4a2ce2d 100644
+550
+--- a/cmd/qtc/main.go
+551
++++ b/cmd/qtc/main.go
+552
+@@ -3,7 +3,7 @@
+553
+ 3 3:package main
+554
+ 4 4:
+555
+ 5 5:import (
+556
+-6  :	"fmt"
+557
++  6:	"fmt
+558
+ 7 7:
+559
+ 8 8:	"github.com/glcp/qtc/internal/config"
+560
+ 9 9:	"github.com/glcp/qtc/internal/pkg/version"
+561
+diff --git a/internal/constants/eval-catalog-metadata.go b/internal/constants/eval-catalog-metadata.go
+562
+index 97510c8bf..827b56418 100644
+563
+--- a/internal/constants/eval-catalog-metadata.go
+564
++++ b/internal/constants/eval-catalog-metadata.go
+565
+@@ -6,12 +6,13 @@ func GetEvalCatalogMetadataMap() map[string]*models.Plan { //nolint:funlen
+566
+  6  6:	return map[string]*models.Plan{
+567
+  7  7:		"HPECC": {
+568
+  8  8:			ID: "651e77ac-5c10-4bd7-bffa-e4ee06a99ebc",
+569
+- 9   :			Metadata: &models.Metadata{
+570
+-10   :				MarketplaceInfo: &models.MarketplaceInfo{
+571
+-11   :					Sku:            "R6Z73AAE",
+572
+-12   :					HeaderTestI18n: "services:HPECC.eval_data.header_text",
+573
+-13   :					FooterTestI18n: "services:HPECC.eval_data.footer_text",
+574
+-14   :					FixedOptions: &models.FixedOptions{
+575
++    9:			Metadata: models.Metadata{
+576
++   10:				MarketplaceInfo: models.MarketplaceInfo{
+577
++   11:					Sku: "R6Z73AAE",
+578
++   12:					Description: "Start 90-day free evaluation of HPE GreenLake Compute Ops Management for " +
+579
++   13:						"up to 10 suppported servers. You can convert to paid subscription without losing any " +
+580
++   14:						"configuration data",
+581
++   15:					FixedOptions: models.FixedOptions{
+582
+ 15 16:						Service:          "HPECC",
+583
+ 16 17:						MarketingAssestC: "700014285",
+584
+ 17 18:						FormIdIntg:       "2233",
+585
+@@ -19,905 +20,243 @@ func GetEvalCatalogMetadataMap() map[string]*models.Plan { //nolint:funlen
+586
+  19  20:					},
+587
+  20  21:					Options: []models.Options{
+588
+  21  22:						{
+589
+- 22    :							Index:          0,
+590
+- 23    :							UserVisibility: true,
+591
+- 24    :							Type:           "group-header",
+592
+- 25    :							Heading: &models.Heading{
+593
+- 26    :								DisplayName: "Contact Information",
+594
+- 27    :								I18nKey:     "services:eval_data.customer_info_group_heading",
+595
+- 28    :							},
+596
+- 29    :						},
+597
+- 30    :						{
+598
+- 31    :							Name:           "firstName",
+599
+- 32    :							DisplayName:    "First Name",
+600
+- 33    :							I18nKey:        "services:eval_data.first_name",
+601
+- 34    :							Index:          1,
+602
+- 35    :							UserVisibility: true,
+603
+- 36    :							Type:           "string",
+604
+- 37    :							Validation: &models.Validation{
+605
+- 38    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+606
+- 39    :							},
+607
+- 40    :							Mandatory: true,
+608
+- 41    :						},
+609
+- 42    :						{
+610
+- 43    :							Name:           "lastName",
+611
+- 44    :							DisplayName:    "Last Name",
+612
+- 45    :							I18nKey:        "services:eval_data.last_name",
+613
+- 46    :							Index:          2,
+614
+- 47    :							UserVisibility: true,
+615
+- 48    :							Type:           "string",
+616
+- 49    :							Validation: &models.Validation{
+617
+- 50    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+618
+- 51    :							},
+619
+- 52    :							Mandatory: true,
+620
+- 53    :						},
+621
+- 54    :						{
+622
+- 55    :							Name:           "emailAddress",
+623
+- 56    :							DisplayName:    "Email Address",
+624
+- 57    :							I18nKey:        "services:eval_data.email_address",
+625
+- 58    :							Index:          3,
+626
+- 59    :							UserVisibility: true,
+627
+- 60    :							Type:           "string",
+628
+- 61    :							Validation: &models.Validation{
+629
+- 62    :								Regex: "^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$",
+630
+- 63    :							},
+631
+- 64    :							Mandatory: true,
+632
+- 65    :						},
+633
+- 66    :						{
+634
+- 67    :							Name:           "company",
+635
+- 68    :							DisplayName:    "Company",
+636
+- 69    :							I18nKey:        "services:eval_data.company",
+637
+- 70    :							Index:          4,
+638
+- 71    :							Description:    "Enter the official company name",
+639
+- 72    :							UserVisibility: true,
+640
+- 73    :							Type:           "string",
+641
+- 74    :							Validation: &models.Validation{
+642
+- 75    :								Regex: "^[a-zA-Z0-9 \\-\\/\\\\.\\,\\(\\)]+$",
+643
+- 76    :							},
+644
+- 77    :							Mandatory: true,
+645
+- 78    :						},
+646
+- 79    :						{
+647
+- 80    :							Name:           "address",
+648
+- 81    :							DisplayName:    "Address",
+649
+- 82    :							I18nKey:        "services:eval_data.address",
+650
+- 83    :							Index:          5,
+651
+- 84    :							Description:    "Enter business address of your company",
+652
+- 85    :							UserVisibility: true,
+653
+- 86    :							Type:           "string",
+654
+- 87    :							Validation: &models.Validation{
+655
++     23:							Name: "",
+656
++     24:							DisplayName: "Start 90-day free evaluation of HPE GreenLake " +
+657
++     25:								"Compute Ops Management for up to 10 supported servers. " +
+658
++     26:								"You can convert to paid subscription without losing any " +
+659
++     27:								"configuration data\n\n### Prerequisites\n\nVerify the servers that you want to " +
+660
++     28:								"use with Compute Ops Management are not managed by HPE OneView. iLO supports the " +
+661
++     29:								"use of one remote server management tool at a time." +
+662
++     30:								"\n\n[View Documentation](https://www.hpe.com/info/com-gsg)",
+663
++     31:							CharacteristicKey: "",
+664
++     32:							Index:             0,
+665
++     33:							Description:       "",
+666
++     34:							DetailDescription: "",
+667
++     35:							UserVisibility:    true,
+668
++     36:							Type:              "fixed-text",
+669
++     37:						},
+670
++     38:						{
+671
++     39:							Name:              "firstName",
+672
++     40:							DisplayName:       "First Name",
+673
++     41:							CharacteristicKey: "firstName",
+674
++     42:							Index:             1,
+675
++     43:							Description:       "",
+676
++     44:							DetailDescription: "",
+677
++     45:							UserVisibility:    true,
+678
++     46:							Type:              "string",
+679
++     47:							Validation: models.Validation{
+680
++     48:								Regex: "",
+681
++     49:							},
+682
++     50:							Mandatory: true,
+683
++     51:						},
+684
++     52:						{
+685
++     53:							Name:              "lastName",
+686
++     54:							DisplayName:       "Last Name",
+687
++     55:							CharacteristicKey: "lastName",
+688
++     56:							Index:             2,
+689
++     57:							Description:       "",
+690
++     58:							DetailDescription: "",
+691
++     59:							UserVisibility:    true,
+692
++     60:							Type:              "string",
+693
++     61:							Validation: models.Validation{
+694
++     62:								Regex: "",
+695
++     63:							},
+696
++     64:							Mandatory: true,
+697
++     65:						},
+698
++     66:						{
+699
++     67:							Name:              "emailAddress",
+700
++     68:							DisplayName:       "Email Address",
+701
++     69:							CharacteristicKey: "emailAddress",
+702
++     70:							Index:             3,
+703
++     71:							Description:       "",
+704
++     72:							DetailDescription: "",
+705
++     73:							UserVisibility:    true,
+706
++     74:							Type:              "string",
+707
++     75:							Validation: models.Validation{
+708
++     76:								Regex: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+709
++     77:							},
+710
++     78:							Mandatory: true,
+711
++     79:						},
+712
++     80:						{
+713
++     81:							Name:              "company",
+714
++     82:							DisplayName:       "Company",
+715
++     83:							CharacteristicKey: "company",
+716
++     84:							Index:             4,
+717
++     85:							Description:       "Enter the official company name",
+718
++     86:							DetailDescription: "",
+719
++     87:							UserVisibility:    true,
+720
++     88:							Type:              "string",
+721
++     89:							Validation: models.Validation{
+722
++     90:								Regex: "",
+723
++     91:							},
+724
++     92:							Mandatory: true,
+725
++     93:						},
+726
++     94:						{
+727
++     95:							Name:              "address",
+728
++     96:							DisplayName:       "Address",
+729
++     97:							CharacteristicKey: "address",
+730
++     98:							Index:             5,
+731
++     99:							Description:       "Enter business address of your company",
+732
++    100:							DetailDescription: "",
+733
++    101:							UserVisibility:    true,
+734
++    102:							Type:              "string",
+735
++    103:							Validation: models.Validation{
+736
+  88 104:								Regex: "^[a-zA-Z0-9 ,\\-.']{1,96}$",
+737
+  89 105:							},
+738
+  90 106:							Mandatory: true,
+739
+  91 107:						},
+740
+  92 108:						{
+741
+- 93    :							Name:           "city",
+742
+- 94    :							DisplayName:    "City",
+743
+- 95    :							I18nKey:        "services:eval_data.city",
+744
+- 96    :							Index:          6,
+745
+- 97    :							UserVisibility: true,
+746
+- 98    :							Type:           "string",
+747
+- 99    :							Validation: &models.Validation{
+748
++    109:							Name:              "city",
+749
++    110:							DisplayName:       "City",
+750
++    111:							CharacteristicKey: "city",
+751
++    112:							Index:             6,
+752
++    113:							Description:       "",
+753
++    114:							DetailDescription: "",
+754
++    115:							UserVisibility:    true,
+755
++    116:							Type:              "string",
+756
++    117:							Validation: models.Validation{
+757
+ 100 118:								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+758
+ 101 119:							},
+759
+ 102 120:							Mandatory: true,
+760
+ 103 121:						},
+761
+ 104 122:						{
+762
+-105    :							Name:           "state",
+763
+-106    :							DisplayName:    "State/Province Code",
+764
+-107    :							I18nKey:        "services:eval_data.state",
+765
+-108    :							Index:          7,
+766
+-109    :							UserVisibility: true,
+767
+-110    :							Type:           "string",
+768
+-111    :							Validation: &models.Validation{
+769
+-112    :								Regex: "^[A-Z]{2}$",
+770
++    123:							Name:              "state",
+771
++    124:							DisplayName:       "State/Province Code",
+772
++    125:							CharacteristicKey: "state",
+773
++    126:							Index:             7,
+774
++    127:							Description:       "",
+775
++    128:							DetailDescription: "",
+776
++    129:							UserVisibility:    true,
+777
++    130:							Type:              "string",
+778
++    131:							Validation: models.Validation{
+779
++    132:								Regex: "",
+780
+ 113 133:							},
+781
+ 114 134:							Mandatory: true,
+782
+ 115 135:						},
+783
+ 116 136:						{
+784
+-117    :							Name:           "zip",
+785
+-118    :							DisplayName:    "Zip/Postal Code",
+786
+-119    :							I18nKey:        "services:eval_data.zip",
+787
+-120    :							Index:          8,
+788
+-121    :							UserVisibility: true,
+789
+-122    :							Type:           "string",
+790
+-123    :							Validation: &models.Validation{
+791
++    137:							Name:              "zip",
+792
++    138:							DisplayName:       "Zip/Postal Code",
+793
++    139:							CharacteristicKey: "zip",
+794
++    140:							Index:             8,
+795
++    141:							Description:       "",
+796
++    142:							DetailDescription: "",
+797
++    143:							UserVisibility:    true,
+798
++    144:							Type:              "string",
+799
++    145:							Validation: models.Validation{
+800
+ 124 146:								Regex: "^[a-zA-Z0-9 -]+$",
+801
+ 125 147:							},
+802
+ 126 148:							Mandatory: true,
+803
+ 127 149:						},
+804
+ 128 150:						{
+805
+-129    :							Name:           "country",
+806
+-130    :							DisplayName:    "Country",
+807
+-131    :							I18nKey:        "services:eval_data.country",
+808
+-132    :							Index:          9,
+809
+-133    :							UserVisibility: true,
+810
+-134    :							Type:           "country",
+811
+-135    :							Mandatory:      true,
+812
+-136    :						},
+813
+-137    :						{
+814
+-138    :							Name:           "phoneNumber",
+815
+-139    :							DisplayName:    "Phone Number",
+816
+-140    :							I18nKey:        "services:eval_data.phone_number",
+817
+-141    :							Index:          10,
+818
+-142    :							UserVisibility: true,
+819
+-143    :							Type:           "string",
+820
+-144    :							Validation: &models.Validation{
+821
+-145    :								Regex: "^[0-9 \\-\\+]{7,30}$",
+822
++    151:							Name:              "country",
+823
++    152:							DisplayName:       "Country",
+824
++    153:							CharacteristicKey: "country",
+825
++    154:							Index:             9,
+826
++    155:							Description:       "",
+827
++    156:							DetailDescription: "",
+828
++    157:							UserVisibility:    true,
+829
++    158:							Type:              "country",
+830
++    159:							Validation: models.Validation{
+831
++    160:								Regex: "",
+832
+ 146 161:							},
+833
+ 147 162:							Mandatory: true,
+834
+ 148 163:						},
+835
+ 149 164:						{
+836
+-150    :							Index:          11,
+837
+-151    :							UserVisibility: true,
+838
+-152    :							Type:           "group-header",
+839
+-153    :							Heading: &models.Heading{
+840
+-154    :								DisplayName: "Deployment",
+841
+-155    :								I18nKey:     "services:eval_data.deployment_group_heading",
+842
+-156    :							},
+843
+-157    :							Subtitle: &models.Subtitle{
+844
+-158    :								DisplayName: "Select a region to deploy the service. Once set up, it can be deployed to additional regions.",
+845
+-159    :								I18nKey:     "services:eval_data.deployment_group_subtitle",
+846
++    165:							Name:              "phoneNumber",
+847
++    166:							DisplayName:       "Phone Number",
+848
++    167:							CharacteristicKey: "phoneNumber",
+849
++    168:							Index:             10,
+850
++    169:							Description:       "",
+851
++    170:							DetailDescription: "",
+852
++    171:							UserVisibility:    true,
+853
++    172:							Type:              "string",
+854
++    173:							Validation: models.Validation{
+855
++    174:								Regex: "^[0-9 \\-\\+]{7,30}$",
+856
+ 160 175:							},
+857
++    176:							Mandatory: true,
+858
+ 161 177:						},
+859
+ 162 178:						{
+860
+-163    :							Name:        "serverFamily",
+861
+-164    :							DisplayName: "Server Family",
+862
+-165    :							I18nKey:     "services:eval_data.server_family",
+863
+-166    :							Index:       12,
+864
++    179:							Name:              "serverFamily",
+865
++    180:							DisplayName:       "Server Family",
+866
++    181:							CharacteristicKey: "serverFamily",
+867
++    182:							Index:             11,
+868
++    183:							Description:       "",
+869
++    184:							DetailDescription: "",
+870
+ 167 185:							AllowedValues: []models.AllowedValues{
+871
+ 168 186:								{
+872
+-169    :									Name:      "ProLiant",
+873
+-170    :									Code:      "PROLIANT",
+874
+-171    :									Index:     0,
+875
+-172    :									I18nKey:   "services:eval_data.server_family_options.proliant",
+876
+-173    :									IsDefault: true,
+877
++    187:									Name:        "ProLiant",
+878
++    188:									Code:        "PROLIANT",
+879
++    189:									Index:       0,
+880
++    190:									Description: "",
+881
++    191:									IsDefault:   true,
+882
+ 174 192:								},
+883
+ 175 193:								{
+884
+-176    :									Name:    "Alletra",
+885
+-177    :									Code:    "ALLETRA_4K",
+886
+-178    :									Index:   1,
+887
+-179    :									I18nKey: "services:eval_data.server_family_options.alletra",
+888
+-180    :
+889
+-181    :									IsDefault: false,
+890
++    194:									Name:        "Alletra",
+891
++    195:									Code:        "ALLETRA_4K",
+892
++    196:									Index:       1,
+893
++    197:									Description: "",
+894
++    198:									IsDefault:   false,
+895
+ 182 199:								},
+896
+ 183 200:							},
+897
+ 184 201:							UserVisibility: true,
+898
+ 185 202:							Type:           "preselectValue",
+899
+ 186 203:						},
+900
+ 187 204:						{
+901
+-188    :							Name:           "region",
+902
+-189    :							DisplayName:    "Deployment Region",
+903
+-190    :							I18nKey:        "services:eval_data.deployment_region",
+904
+-191    :							Index:          13,
+905
+-192    :							UserVisibility: true,
+906
+-193    :							Type:           "preselectValue",
+907
+-194    :						},
+908
+-195    :						{
+909
+-196    :							Name: "acceptTerms",
+910
+-197    :							DisplayName: "I agree to the " +
+911
+-198    :								"[Terms of Service](https://www.hpe.com/us/en/about/legal/ccs-terms.html#compute)",
+912
+-199    :							I18nKey:        "services:HPECC.eval_data.terms_and_conditions",
+913
+-200    :							Index:          14,
+914
+-201    :							UserVisibility: true,
+915
+-202    :							Type:           "boolean",
+916
+-203    :							Mandatory:      true,
+917
+-204    :						},
+918
+-205    :					},
+919
+-206    :				},
+920
+-207    :				Metering: []models.Metering{},
+921
+-208    :			},
+922
+-209    :		},
+923
+-210    :		"BAR": {
+924
+-211    :			ID: "123e4567-e89b-12d3-a456-426614174000",
+925
+-212    :			Metadata: &models.Metadata{
+926
+-213    :				MarketplaceInfo: &models.MarketplaceInfo{
+927
+-214    :					Sku:            "R7A23AAE",
+928
+-215    :					HeaderTestI18n: "services:BAR.eval_data.header_text",
+929
+-216    :					FooterTestI18n: "services:BAR.eval_data.footer_text",
+930
+-217    :					FixedOptions: &models.FixedOptions{
+931
+-218    :						Service:          "BAR",
+932
+-219    :						MarketingAssestC: "700028914",
+933
+-220    :						FormIdIntg:       "3023",
+934
+-221    :						FormIdProd:       "3395",
+935
+-222    :					},
+936
+-223    :					Options: []models.Options{
+937
+-224    :						{
+938
+-225    :							Index:          0,
+939
+-226    :							UserVisibility: true,
+940
+-227    :							Type:           "fixed-text",
+941
+-228    :							Heading: &models.Heading{
+942
+-229    :								DisplayName: "Contact Information",
+943
+-230    :								I18nKey:     "services:eval_data.customer_info_group_heading",
+944
+-231    :							},
+945
+-232    :						},
+946
+-233    :						{
+947
+-234    :							Name:           "firstName",
+948
+-235    :							DisplayName:    "First Name",
+949
+-236    :							I18nKey:        "services:eval_data.first_name",
+950
+-237    :							Index:          1,
+951
+-238    :							UserVisibility: true,
+952
+-239    :							Type:           "string",
+953
+-240    :							Validation: &models.Validation{
+954
+-241    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+955
+-242    :							},
+956
+-243    :							Mandatory: true,
+957
+-244    :						},
+958
+-245    :						{
+959
+-246    :							Name:           "lastName",
+960
+-247    :							DisplayName:    "Last Name",
+961
+-248    :							I18nKey:        "services:eval_data.last_name",
+962
+-249    :							Index:          2,
+963
+-250    :							UserVisibility: true,
+964
+-251    :							Type:           "string",
+965
+-252    :							Validation: &models.Validation{
+966
+-253    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+967
+-254    :							},
+968
+-255    :							Mandatory: true,
+969
+-256    :						},
+970
+-257    :						{
+971
+-258    :							Name:           "emailAddress",
+972
+-259    :							DisplayName:    "Email Address",
+973
+-260    :							I18nKey:        "services:eval_data.email_address",
+974
+-261    :							Index:          3,
+975
+-262    :							UserVisibility: true,
+976
+-263    :							Type:           "string",
+977
+-264    :							Validation: &models.Validation{
+978
+-265    :								Regex: "^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$",
+979
+-266    :							},
+980
+-267    :							Mandatory: true,
+981
+-268    :						},
+982
+-269    :						{
+983
+-270    :							Name:           "company",
+984
+-271    :							DisplayName:    "Company",
+985
+-272    :							I18nKey:        "services:eval_data.company",
+986
+-273    :							Index:          4,
+987
+-274    :							Description:    "Enter the official company name",
+988
+-275    :							UserVisibility: true,
+989
+-276    :							Type:           "string",
+990
+-277    :							Validation: &models.Validation{
+991
+-278    :								Regex: "^[a-zA-Z0-9 \\-\\/\\\\.\\,\\(\\)]+$",
+992
+-279    :							},
+993
+-280    :							Mandatory: true,
+994
+-281    :						},
+995
+-282    :						{
+996
+-283    :							Name:           "address",
+997
+-284    :							DisplayName:    "Address",
+998
+-285    :							I18nKey:        "services:eval_data.address",
+999
+-286    :							Index:          5,
+1000
+-287    :							Description:    "Enter business address of your company",
+1001
+-288    :							UserVisibility: true,
+1002
+-289    :							Type:           "string",
+1003
+-290    :							Validation: &models.Validation{
+1004
+-291    :								Regex: "^[a-zA-Z0-9 ,\\-.']{1,96}$",
+1005
+-292    :							},
+1006
+-293    :							Mandatory: true,
+1007
+-294    :						},
+1008
+-295    :						{
+1009
+-296    :							Name:           "city",
+1010
+-297    :							DisplayName:    "City",
+1011
+-298    :							I18nKey:        "services:eval_data.city",
+1012
+-299    :							Index:          6,
+1013
+-300    :							UserVisibility: true,
+1014
+-301    :							Type:           "string",
+1015
+-302    :							Validation: &models.Validation{
+1016
+-303    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+1017
+-304    :							},
+1018
+-305    :							Mandatory: true,
+1019
+-306    :						},
+1020
+-307    :						{
+1021
+-308    :							Name:           "state",
+1022
+-309    :							DisplayName:    "State/Province Code",
+1023
+-310    :							I18nKey:        "services:eval_data.state",
+1024
+-311    :							Index:          7,
+1025
+-312    :							UserVisibility: true,
+1026
+-313    :							Type:           "string",
+1027
+-314    :							Validation: &models.Validation{
+1028
+-315    :								Regex: "^[A-Z]{2}$",
+1029
+-316    :							},
+1030
+-317    :							Mandatory: true,
+1031
+-318    :						},
+1032
+-319    :						{
+1033
+-320    :							Name:           "zip",
+1034
+-321    :							DisplayName:    "Zip/Postal Code",
+1035
+-322    :							I18nKey:        "services:eval_data.zip",
+1036
+-323    :							Index:          8,
+1037
+-324    :							UserVisibility: true,
+1038
+-325    :							Type:           "string",
+1039
+-326    :							Validation: &models.Validation{
+1040
+-327    :								Regex: "^[a-zA-Z0-9 -]+$",
+1041
+-328    :							},
+1042
+-329    :							Mandatory: true,
+1043
+-330    :						},
+1044
+-331    :						{
+1045
+-332    :							Name:           "country",
+1046
+-333    :							DisplayName:    "Country",
+1047
+-334    :							I18nKey:        "services:eval_data.country",
+1048
+-335    :							Index:          9,
+1049
+-336    :							UserVisibility: true,
+1050
+-337    :							Type:           "country",
+1051
+-338    :							Mandatory:      true,
+1052
+-339    :						},
+1053
+-340    :						{
+1054
+-341    :							Name:           "phoneNumber",
+1055
+-342    :							DisplayName:    "Phone Number",
+1056
+-343    :							I18nKey:        "services:eval_data.phone_number",
+1057
+-344    :							Index:          10,
+1058
+-345    :							UserVisibility: true,
+1059
+-346    :							Type:           "string",
+1060
+-347    :							Validation: &models.Validation{
+1061
+-348    :								Regex: "^[0-9 \\-\\+]{7,30}$",
+1062
+-349    :							},
+1063
+-350    :							Mandatory: true,
+1064
+-351    :						},
+1065
+-352    :						{
+1066
+-353    :							Index:          11,
+1067
+-354    :							UserVisibility: true,
+1068
+-355    :							Type:           "group-header",
+1069
+-356    :							Heading: &models.Heading{
+1070
+-357    :								DisplayName: "Deployment",
+1071
+-358    :								I18nKey:     "services:eval_data.deployment_group_heading",
+1072
+-359    :							},
+1073
+-360    :							Subtitle: &models.Subtitle{
+1074
+-361    :								DisplayName: "Select a region to deploy the service. Once set up, it can be deployed to additional regions.",
+1075
+-362    :								I18nKey:     "services:eval_data.deployment_group_subtitle",
+1076
+-363    :							},
+1077
+-364    :						},
+1078
+-365    :						{
+1079
+-366    :							Name:           "region",
+1080
+-367    :							DisplayName:    "Deployment Region",
+1081
+-368    :							I18nKey:        "services:eval_data.deployment_region",
+1082
+-369    :							Index:          12,
+1083
+-370    :							UserVisibility: true,
+1084
+-371    :							Type:           "preselectValue",
+1085
+-372    :						},
+1086
+-373    :						{
+1087
+-374    :							Name: "acceptTerms",
+1088
+-375    :							DisplayName: "I agree to the " +
+1089
+-376    :								"[Terms of Service](https://www.hpe.com/us/en/about/legal/ccs-terms.html)",
+1090
+-377    :							I18nKey:        "services:BAR.eval_data.terms_and_conditions",
+1091
+-378    :							Index:          13,
+1092
+-379    :							UserVisibility: true,
+1093
+-380    :							Type:           "boolean",
+1094
+-381    :							Mandatory:      true,
+1095
+-382    :						},
+1096
+-383    :					},
+1097
+-384    :				},
+1098
+-385    :				Metering: []models.Metering{},
+1099
+-386    :			},
+1100
+-387    :		},
+1101
+-388    :		"MLDE": {
+1102
+-389    :			ID: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+1103
+-390    :			Metadata: &models.Metadata{
+1104
+-391    :				MarketplaceInfo: &models.MarketplaceInfo{
+1105
+-392    :					Sku:            "S0Z12SRK",
+1106
+-393    :					HeaderTestI18n: "services:MLDE.eval_data.header_text",
+1107
+-394    :					FooterTestI18n: "services:MLDE.eval_data.footer_text",
+1108
+-395    :					FixedOptions: &models.FixedOptions{
+1109
+-396    :						Service:          "MLDE",
+1110
+-397    :						MarketingAssestC: "123456789", // TODOO change MarketingAssetC for actual value once available
+1111
+-398    :						FormIdIntg:       "3023",
+1112
+-399    :						FormIdProd:       "3395",
+1113
+-400    :					},
+1114
+-401    :					Options: []models.Options{
+1115
+-402    :						{
+1116
+-403    :							Index:          0,
+1117
+-404    :							UserVisibility: true,
+1118
+-405    :							Type:           "fixed-text",
+1119
+-406    :							Heading: &models.Heading{
+1120
+-407    :								DisplayName: "Contact Information",
+1121
+-408    :								I18nKey:     "services:eval_data.customer_info_group_heading",
+1122
+-409    :							},
+1123
+-410    :						},
+1124
+-411    :						{
+1125
+-412    :							Name:           "firstName",
+1126
+-413    :							DisplayName:    "First Name",
+1127
+-414    :							I18nKey:        "services:eval_data.first_name",
+1128
+-415    :							Index:          1,
+1129
+-416    :							UserVisibility: true,
+1130
+-417    :							Type:           "string",
+1131
+-418    :							Validation: &models.Validation{
+1132
+-419    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+1133
+-420    :							},
+1134
+-421    :							Mandatory: true,
+1135
+-422    :						},
+1136
+-423    :						{
+1137
+-424    :							Name:           "lastName",
+1138
+-425    :							DisplayName:    "Last Name",
+1139
+-426    :							I18nKey:        "services:eval_data.last_name",
+1140
+-427    :							Index:          2,
+1141
+-428    :							UserVisibility: true,
+1142
+-429    :							Type:           "string",
+1143
+-430    :							Validation: &models.Validation{
+1144
+-431    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+1145
+-432    :							},
+1146
+-433    :							Mandatory: true,
+1147
+-434    :						},
+1148
+-435    :						{
+1149
+-436    :							Name:           "emailAddress",
+1150
+-437    :							DisplayName:    "Email Address",
+1151
+-438    :							I18nKey:        "services:eval_data.email_address",
+1152
+-439    :							Index:          3,
+1153
+-440    :							UserVisibility: true,
+1154
+-441    :							Type:           "string",
+1155
+-442    :							Validation: &models.Validation{
+1156
+-443    :								Regex: "^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$",
+1157
+-444    :							},
+1158
+-445    :							Mandatory: true,
+1159
+-446    :						},
+1160
+-447    :						{
+1161
+-448    :							Name:           "company",
+1162
+-449    :							DisplayName:    "Company",
+1163
+-450    :							I18nKey:        "services:eval_data.company",
+1164
+-451    :							Index:          4,
+1165
+-452    :							Description:    "Enter the official company name",
+1166
+-453    :							UserVisibility: true,
+1167
+-454    :							Type:           "string",
+1168
+-455    :							Validation: &models.Validation{
+1169
+-456    :								Regex: "^[a-zA-Z0-9 \\-\\/\\\\.\\,\\(\\)]+$",
+1170
+-457    :							},
+1171
+-458    :							Mandatory: true,
+1172
+-459    :						},
+1173
+-460    :						{
+1174
+-461    :							Name:           "address",
+1175
+-462    :							DisplayName:    "Address",
+1176
+-463    :							I18nKey:        "services:eval_data.address",
+1177
+-464    :							Index:          5,
+1178
+-465    :							Description:    "Enter business address of your company",
+1179
+-466    :							UserVisibility: true,
+1180
+-467    :							Type:           "string",
+1181
+-468    :							Validation: &models.Validation{
+1182
+-469    :								Regex: "^[a-zA-Z0-9 ,\\-.']{1,96}$",
+1183
+-470    :							},
+1184
+-471    :							Mandatory: true,
+1185
+-472    :						},
+1186
+-473    :						{
+1187
+-474    :							Name:           "city",
+1188
+-475    :							DisplayName:    "City",
+1189
+-476    :							I18nKey:        "services:eval_data.city",
+1190
+-477    :							Index:          6,
+1191
+-478    :							UserVisibility: true,
+1192
+-479    :							Type:           "string",
+1193
+-480    :							Validation: &models.Validation{
+1194
+-481    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+1195
+-482    :							},
+1196
+-483    :							Mandatory: true,
+1197
+-484    :						},
+1198
+-485    :						{
+1199
+-486    :							Name:           "state",
+1200
+-487    :							DisplayName:    "State/Province Code",
+1201
+-488    :							I18nKey:        "services:eval_data.state",
+1202
+-489    :							Index:          7,
+1203
+-490    :							UserVisibility: true,
+1204
+-491    :							Type:           "string",
+1205
+-492    :							Validation: &models.Validation{
+1206
+-493    :								Regex: "^[A-Z]{2}$",
+1207
+-494    :							},
+1208
+-495    :							Mandatory: true,
+1209
+-496    :						},
+1210
+-497    :						{
+1211
+-498    :							Name:           "zip",
+1212
+-499    :							DisplayName:    "Zip/Postal Code",
+1213
+-500    :							I18nKey:        "services:eval_data.zip",
+1214
+-501    :							Index:          8,
+1215
+-502    :							UserVisibility: true,
+1216
+-503    :							Type:           "string",
+1217
+-504    :							Validation: &models.Validation{
+1218
+-505    :								Regex: "^[a-zA-Z0-9 -]+$",
+1219
+-506    :							},
+1220
+-507    :							Mandatory: true,
+1221
+-508    :						},
+1222
+-509    :						{
+1223
+-510    :							Name:           "country",
+1224
+-511    :							DisplayName:    "Country",
+1225
+-512    :							I18nKey:        "services:eval_data.country",
+1226
+-513    :							Index:          9,
+1227
+-514    :							UserVisibility: true,
+1228
+-515    :							Type:           "country",
+1229
+-516    :							Mandatory:      true,
+1230
+-517    :						},
+1231
+-518    :						{
+1232
+-519    :							Name:           "phoneNumber",
+1233
+-520    :							DisplayName:    "Phone Number",
+1234
+-521    :							I18nKey:        "services:eval_data.phone_number",
+1235
+-522    :							Index:          10,
+1236
+-523    :							UserVisibility: true,
+1237
+-524    :							Type:           "string",
+1238
+-525    :							Validation: &models.Validation{
+1239
+-526    :								Regex: "^[0-9 \\-\\+]{7,30}$",
+1240
+-527    :							},
+1241
+-528    :							Mandatory: true,
+1242
+-529    :						},
+1243
+-530    :						{
+1244
+-531    :							Index:          11,
+1245
+-532    :							UserVisibility: true,
+1246
+-533    :							Type:           "group-header",
+1247
+-534    :							Heading: &models.Heading{
+1248
+-535    :								DisplayName: "Deployment",
+1249
+-536    :								I18nKey:     "services:eval_data.deployment_group_heading",
+1250
+-537    :							},
+1251
+-538    :							Subtitle: &models.Subtitle{
+1252
+-539    :								DisplayName: "Select a region to deploy the service. Once set up, it can be deployed to additional regions.",
+1253
+-540    :								I18nKey:     "services:eval_data.deployment_group_subtitle",
+1254
+-541    :							},
+1255
+-542    :						},
+1256
+-543    :						{
+1257
+-544    :							Name:           "region",
+1258
+-545    :							DisplayName:    "Deployment Region",
+1259
+-546    :							I18nKey:        "services:eval_data.deployment_region",
+1260
+-547    :							Index:          12,
+1261
+-548    :							UserVisibility: true,
+1262
+-549    :							Type:           "preselectValue",
+1263
+-550    :						},
+1264
+-551    :						{
+1265
+-552    :							Name: "acceptTerms",
+1266
+-553    :							DisplayName: "I agree to the " +
+1267
+-554    :								"[Terms of Service](https://www.hpe.com/us/en/about/legal/ccs-terms.html)",
+1268
+-555    :							I18nKey:        "services:MLDE.eval_data.terms_and_conditions",
+1269
+-556    :							Index:          13,
+1270
+-557    :							UserVisibility: true,
+1271
+-558    :							Type:           "boolean",
+1272
+-559    :							Mandatory:      true,
+1273
+-560    :						},
+1274
+-561    :					},
+1275
+-562    :				},
+1276
+-563    :				Metering: []models.Metering{},
+1277
+-564    :			},
+1278
+-565    :		},
+1279
+-566    :		"SFM": {
+1280
+-567    :			ID: "3f333f43-7f73-4f02-8f33-8a3f4f3f8f33",
+1281
+-568    :			Metadata: &models.Metadata{
+1282
+-569    :				MarketplaceInfo: &models.MarketplaceInfo{
+1283
+-570    :					Sku:            "R9R11AAE",
+1284
+-571    :					HeaderTestI18n: "services:SFM.eval_data.header_text",
+1285
+-572    :					FooterTestI18n: "services:SFM.eval_data.footer_text",
+1286
+-573    :					FixedOptions: &models.FixedOptions{
+1287
+-574    :						Service:          "SFM",
+1288
+-575    :						MarketingAssestC: "700043944",
+1289
+-576    :						FormIdIntg:       "3023",
+1290
+-577    :						FormIdProd:       "3395",
+1291
+-578    :					},
+1292
+-579    :					Options: []models.Options{
+1293
+-580    :						{
+1294
+-581    :							Index:          0,
+1295
+-582    :							UserVisibility: true,
+1296
+-583    :							Type:           "fixed-text",
+1297
+-584    :							Heading: &models.Heading{
+1298
+-585    :								DisplayName: "Contact Information",
+1299
+-586    :								I18nKey:     "services:eval_data.customer_info_group_heading",
+1300
+-587    :							},
+1301
+-588    :						},
+1302
+-589    :						{
+1303
+-590    :							Name:           "firstName",
+1304
+-591    :							DisplayName:    "First Name",
+1305
+-592    :							I18nKey:        "services:eval_data.first_name",
+1306
+-593    :							Index:          1,
+1307
+-594    :							UserVisibility: true,
+1308
+-595    :							Type:           "string",
+1309
+-596    :							Validation: &models.Validation{
+1310
+-597    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+1311
+-598    :							},
+1312
+-599    :							Mandatory: true,
+1313
+-600    :						},
+1314
+-601    :						{
+1315
+-602    :							Name:           "lastName",
+1316
+-603    :							DisplayName:    "Last Name",
+1317
+-604    :							I18nKey:        "services:eval_data.last_name",
+1318
+-605    :							Index:          2,
+1319
+-606    :							UserVisibility: true,
+1320
+-607    :							Type:           "string",
+1321
+-608    :							Validation: &models.Validation{
+1322
+-609    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+1323
+-610    :							},
+1324
+-611    :							Mandatory: true,
+1325
+-612    :						},
+1326
+-613    :						{
+1327
+-614    :							Name:           "emailAddress",
+1328
+-615    :							DisplayName:    "Email Address",
+1329
+-616    :							I18nKey:        "services:eval_data.email_address",
+1330
+-617    :							Index:          3,
+1331
+-618    :							UserVisibility: true,
+1332
+-619    :							Type:           "string",
+1333
+-620    :							Validation: &models.Validation{
+1334
+-621    :								Regex: "^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$",
+1335
+-622    :							},
+1336
+-623    :							Mandatory: true,
+1337
+-624    :						},
+1338
+-625    :						{
+1339
+-626    :							Name:           "company",
+1340
+-627    :							DisplayName:    "Company",
+1341
+-628    :							I18nKey:        "services:eval_data.company",
+1342
+-629    :							Index:          4,
+1343
+-630    :							Description:    "Enter the official company name",
+1344
+-631    :							UserVisibility: true,
+1345
+-632    :							Type:           "string",
+1346
+-633    :							Validation: &models.Validation{
+1347
+-634    :								Regex: "^[a-zA-Z0-9 \\-\\/\\\\.\\,\\(\\)]+$",
+1348
+-635    :							},
+1349
+-636    :							Mandatory: true,
+1350
+-637    :						},
+1351
+-638    :						{
+1352
+-639    :							Name:           "address",
+1353
+-640    :							DisplayName:    "Address",
+1354
+-641    :							I18nKey:        "services:eval_data.address",
+1355
+-642    :							Index:          5,
+1356
+-643    :							Description:    "Enter business address of your company",
+1357
+-644    :							UserVisibility: true,
+1358
+-645    :							Type:           "string",
+1359
+-646    :							Validation: &models.Validation{
+1360
+-647    :								Regex: "^[a-zA-Z0-9 ,\\-.']{1,96}$",
+1361
+-648    :							},
+1362
+-649    :							Mandatory: true,
+1363
+-650    :						},
+1364
+-651    :						{
+1365
+-652    :							Name:           "city",
+1366
+-653    :							DisplayName:    "City",
+1367
+-654    :							I18nKey:        "services:eval_data.city",
+1368
+-655    :							Index:          6,
+1369
+-656    :							UserVisibility: true,
+1370
+-657    :							Type:           "string",
+1371
+-658    :							Validation: &models.Validation{
+1372
+-659    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+1373
+-660    :							},
+1374
+-661    :							Mandatory: true,
+1375
+-662    :						},
+1376
+-663    :						{
+1377
+-664    :							Name:           "state",
+1378
+-665    :							DisplayName:    "State/Province Code",
+1379
+-666    :							I18nKey:        "services:eval_data.state",
+1380
+-667    :							Index:          7,
+1381
+-668    :							UserVisibility: true,
+1382
+-669    :							Type:           "string",
+1383
+-670    :							Validation: &models.Validation{
+1384
+-671    :								Regex: "^[A-Z]{2}$",
+1385
+-672    :							},
+1386
+-673    :							Mandatory: true,
+1387
+-674    :						},
+1388
+-675    :						{
+1389
+-676    :							Name:           "zip",
+1390
+-677    :							DisplayName:    "Zip/Postal Code",
+1391
+-678    :							I18nKey:        "services:eval_data.zip",
+1392
+-679    :							Index:          8,
+1393
+-680    :							UserVisibility: true,
+1394
+-681    :							Type:           "string",
+1395
+-682    :							Validation: &models.Validation{
+1396
+-683    :								Regex: "^[a-zA-Z0-9 -]+$",
+1397
+-684    :							},
+1398
+-685    :							Mandatory: true,
+1399
+-686    :						},
+1400
+-687    :						{
+1401
+-688    :							Name:           "country",
+1402
+-689    :							DisplayName:    "Country",
+1403
+-690    :							I18nKey:        "services:eval_data.country",
+1404
+-691    :							Index:          9,
+1405
+-692    :							UserVisibility: true,
+1406
+-693    :							Type:           "country",
+1407
+-694    :							Mandatory:      true,
+1408
+-695    :						},
+1409
+-696    :						{
+1410
+-697    :							Name:           "phoneNumber",
+1411
+-698    :							DisplayName:    "Phone Number",
+1412
+-699    :							I18nKey:        "services:eval_data.phone_number",
+1413
+-700    :							Index:          10,
+1414
+-701    :							UserVisibility: true,
+1415
+-702    :							Type:           "string",
+1416
+-703    :							Validation: &models.Validation{
+1417
+-704    :								Regex: "^[0-9 \\-\\+]{7,30}$",
+1418
+-705    :							},
+1419
+-706    :							Mandatory: true,
+1420
+-707    :						},
+1421
+-708    :						{
+1422
+-709    :							Index:          11,
+1423
+-710    :							UserVisibility: true,
+1424
+-711    :							Type:           "group-header",
+1425
+-712    :							Heading: &models.Heading{
+1426
+-713    :								DisplayName: "Deployment",
+1427
+-714    :								I18nKey:     "services:eval_data.deployment_group_heading",
+1428
+-715    :							},
+1429
+-716    :							Subtitle: &models.Subtitle{
+1430
+-717    :								DisplayName: "Select a region to deploy the service. Once set up, it can be deployed to additional regions.",
+1431
+-718    :								I18nKey:     "services:eval_data.deployment_group_subtitle",
+1432
+-719    :							},
+1433
+-720    :						},
+1434
+-721    :						{
+1435
+-722    :							Name:           "region",
+1436
+-723    :							DisplayName:    "Deployment Region",
+1437
+-724    :							I18nKey:        "services:eval_data.deployment_region",
+1438
+-725    :							Index:          12,
+1439
+-726    :							UserVisibility: true,
+1440
+-727    :							Type:           "preselectValue",
+1441
+-728    :						},
+1442
+-729    :						{
+1443
+-730    :							Name: "acceptTerms",
+1444
+-731    :							DisplayName: "I agree to the " +
+1445
+-732    :								"[Terms of Service](https://www.hpe.com/psnow/doc/a50009003enw?jumpid=in_pdfviewer-psnow)",
+1446
+-733    :							I18nKey:        "services:SFM.eval_data.terms_and_conditions",
+1447
+-734    :							Index:          13,
+1448
+-735    :							UserVisibility: true,
+1449
+-736    :							Type:           "boolean",
+1450
+-737    :							Mandatory:      true,
+1451
+-738    :						},
+1452
+-739    :					},
+1453
+-740    :				},
+1454
+-741    :				Metering: []models.Metering{},
+1455
+-742    :			},
+1456
+-743    :		},
+1457
+-744    :		"DATASVS": {
+1458
+-745    :			ID: "4a4b4c4d-4e4f-4051-5253-545556575859",
+1459
+-746    :			Metadata: &models.Metadata{
+1460
+-747    :				MarketplaceInfo: &models.MarketplaceInfo{
+1461
+-748    :					Sku:            "S1S62AAE",
+1462
+-749    :					HeaderTestI18n: "services:DATASVS.eval_data.header_text",
+1463
+-750    :					FooterTestI18n: "services:DATASVS.eval_data.footer_text",
+1464
+-751    :					FixedOptions: &models.FixedOptions{
+1465
+-752    :						Service:          "DATASVS",
+1466
+-753    :						MarketingAssestC: "700032006",
+1467
+-754    :						FormIdIntg:       "",
+1468
+-755    :						FormIdProd:       "",
+1469
+-756    :					},
+1470
+-757    :					Options: []models.Options{
+1471
+-758    :						{
+1472
+-759    :							Index:          0,
+1473
+-760    :							UserVisibility: true,
+1474
+-761    :							Type:           "fixed-text",
+1475
+-762    :							Heading: &models.Heading{
+1476
+-763    :								DisplayName: "Contact Information",
+1477
+-764    :								I18nKey:     "services:eval_data.customer_info_group_heading",
+1478
+-765    :							},
+1479
+-766    :						},
+1480
+-767    :						{
+1481
+-768    :							Name:           "firstName",
+1482
+-769    :							DisplayName:    "First Name",
+1483
+-770    :							I18nKey:        "services:eval_data.first_name",
+1484
+-771    :							Index:          1,
+1485
+-772    :							UserVisibility: true,
+1486
+-773    :							Type:           "string",
+1487
+-774    :							Validation: &models.Validation{
+1488
+-775    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+1489
+-776    :							},
+1490
+-777    :							Mandatory: true,
+1491
+-778    :						},
+1492
+-779    :						{
+1493
+-780    :							Name:           "lastName",
+1494
+-781    :							DisplayName:    "Last Name",
+1495
+-782    :							I18nKey:        "services:eval_data.last_name",
+1496
+-783    :							Index:          2,
+1497
+-784    :							UserVisibility: true,
+1498
+-785    :							Type:           "string",
+1499
+-786    :							Validation: &models.Validation{
+1500
+-787    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+1501
+-788    :							},
+1502
+-789    :							Mandatory: true,
+1503
+-790    :						},
+1504
+-791    :						{
+1505
+-792    :							Name:           "emailAddress",
+1506
+-793    :							DisplayName:    "Email Address",
+1507
+-794    :							I18nKey:        "services:eval_data.email_address",
+1508
+-795    :							Index:          3,
+1509
+-796    :							UserVisibility: true,
+1510
+-797    :							Type:           "string",
+1511
+-798    :							Validation: &models.Validation{
+1512
+-799    :								Regex: "^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$",
+1513
+-800    :							},
+1514
+-801    :							Mandatory: true,
+1515
+-802    :						},
+1516
+-803    :						{
+1517
+-804    :							Name:           "company",
+1518
+-805    :							DisplayName:    "Company",
+1519
+-806    :							I18nKey:        "services:eval_data.company",
+1520
+-807    :							Index:          4,
+1521
+-808    :							Description:    "Enter the official company name",
+1522
+-809    :							UserVisibility: true,
+1523
+-810    :							Type:           "string",
+1524
+-811    :							Validation: &models.Validation{
+1525
+-812    :								Regex: "^[a-zA-Z0-9 \\-\\/\\\\.\\,\\(\\)]+$",
+1526
+-813    :							},
+1527
+-814    :							Mandatory: true,
+1528
+-815    :						},
+1529
+-816    :						{
+1530
+-817    :							Name:           "address",
+1531
+-818    :							DisplayName:    "Address",
+1532
+-819    :							I18nKey:        "services:eval_data.address",
+1533
+-820    :							Index:          5,
+1534
+-821    :							Description:    "Enter business address of your company",
+1535
+-822    :							UserVisibility: true,
+1536
+-823    :							Type:           "string",
+1537
+-824    :							Validation: &models.Validation{
+1538
+-825    :								Regex: "^[a-zA-Z0-9 ,\\-.']{1,96}$",
+1539
+-826    :							},
+1540
+-827    :							Mandatory: true,
+1541
+-828    :						},
+1542
+-829    :						{
+1543
+-830    :							Name:           "city",
+1544
+-831    :							DisplayName:    "City",
+1545
+-832    :							I18nKey:        "services:eval_data.city",
+1546
+-833    :							Index:          6,
+1547
+-834    :							UserVisibility: true,
+1548
+-835    :							Type:           "string",
+1549
+-836    :							Validation: &models.Validation{
+1550
+-837    :								Regex: "^[a-zA-Z ,\\-\\.\\']+$",
+1551
+-838    :							},
+1552
+-839    :							Mandatory: true,
+1553
+-840    :						},
+1554
+-841    :						{
+1555
+-842    :							Name:           "state",
+1556
+-843    :							DisplayName:    "State/Province Code",
+1557
+-844    :							I18nKey:        "services:eval_data.state",
+1558
+-845    :							Index:          7,
+1559
+-846    :							UserVisibility: true,
+1560
+-847    :							Type:           "string",
+1561
+-848    :							Validation: &models.Validation{
+1562
+-849    :								Regex: "^[A-Z]{2}$",
+1563
+-850    :							},
+1564
+-851    :							Mandatory: true,
+1565
+-852    :						},
+1566
+-853    :						{
+1567
+-854    :							Name:           "zip",
+1568
+-855    :							DisplayName:    "Zip/Postal Code",
+1569
+-856    :							I18nKey:        "services:eval_data.zip",
+1570
+-857    :							Index:          8,
+1571
+-858    :							UserVisibility: true,
+1572
+-859    :							Type:           "string",
+1573
+-860    :							Validation: &models.Validation{
+1574
+-861    :								Regex: "^[a-zA-Z0-9 -]+$",
+1575
+-862    :							},
+1576
+-863    :							Mandatory: true,
+1577
+-864    :						},
+1578
+-865    :						{
+1579
+-866    :							Name:           "country",
+1580
+-867    :							DisplayName:    "Country",
+1581
+-868    :							I18nKey:        "services:eval_data.country",
+1582
+-869    :							Index:          9,
+1583
+-870    :							UserVisibility: true,
+1584
+-871    :							Type:           "country",
+1585
+-872    :							Mandatory:      true,
+1586
+-873    :						},
+1587
+-874    :						{
+1588
+-875    :							Name:           "phoneNumber",
+1589
+-876    :							DisplayName:    "Phone Number",
+1590
+-877    :							I18nKey:        "services:eval_data.phone_number",
+1591
+-878    :							Index:          10,
+1592
+-879    :							UserVisibility: true,
+1593
+-880    :							Type:           "string",
+1594
+-881    :							Validation: &models.Validation{
+1595
+-882    :								Regex: "^[0-9 \\-\\+]{7,30}$",
+1596
+-883    :							},
+1597
+-884    :							Mandatory: true,
+1598
+-885    :						},
+1599
+-886    :						{
+1600
+-887    :							Index:          11,
+1601
+-888    :							UserVisibility: true,
+1602
+-889    :							Type:           "group-header",
+1603
+-890    :							Heading: &models.Heading{
+1604
+-891    :								DisplayName: "Deployment",
+1605
+-892    :								I18nKey:     "services:eval_data.deployment_group_heading",
+1606
+-893    :							},
+1607
+-894    :							Subtitle: &models.Subtitle{
+1608
+-895    :								DisplayName: "Select a region to deploy the service. Once set up, it can be deployed to additional regions.",
+1609
+-896    :								I18nKey:     "services:eval_data.deployment_group_subtitle",
+1610
++    205:							Name:              "region",
+1611
++    206:							DisplayName:       "Deployment Region",
+1612
++    207:							CharacteristicKey: "region",
+1613
++    208:							Index:             12,
+1614
++    209:							Description:       "",
+1615
++    210:							DetailDescription: "",
+1616
++    211:							AllowedValues: []models.AllowedValues{
+1617
++    212:								{
+1618
++    213:									Name:        "US West",
+1619
++    214:									Code:        "US West",
+1620
++    215:									Index:       0,
+1621
++    216:									Description: "",
+1622
++    217:									IsDefault:   true,
+1623
++    218:								},
+1624
++    219:								{
+1625
++    220:									Name:        "US East",
+1626
++    221:									Code:        "US East",
+1627
++    222:									Index:       1,
+1628
++    223:									Description: "",
+1629
++    224:									IsDefault:   false,
+1630
++    225:								},
+1631
+ 897 226:							},
+1632
+-898    :						},
+1633
+-899    :						{
+1634
+-900    :							Name:           "region",
+1635
+-901    :							DisplayName:    "Deployment Region",
+1636
+-902    :							I18nKey:        "services:eval_data.deployment_region",
+1637
+-903    :							Index:          12,
+1638
+ 904 227:							UserVisibility: true,
+1639
+ 905 228:							Type:           "preselectValue",
+1640
+ 906 229:						},
+1641
+ 907 230:						{
+1642
+ 908 231:							Name: "acceptTerms",
+1643
+ 909 232:							DisplayName: "I agree to the " +
+1644
+-910    :								"[Terms of Service](https://www.hpe.com/us/en/about/legal/ccs-terms.html)",
+1645
+-911    :							I18nKey:        "services:DATASVS.eval_data.terms_and_conditions",
+1646
+-912    :							Index:          13,
+1647
+-913    :							UserVisibility: true,
+1648
+-914    :							Type:           "boolean",
+1649
+-915    :							Mandatory:      true,
+1650
++    233:								"[Terms of Service](https://www.hpe.com/us/en/about/legal/ccs-terms.html#compute)",
+1651
++    234:							CharacteristicKey: "acceptTerms",
+1652
++    235:							Index:             13,
+1653
++    236:							Description:       "",
+1654
++    237:							DetailDescription: "",
+1655
++    238:							UserVisibility:    true,
+1656
++    239:							Type:              "boolean",
+1657
++    240:							Mandatory:         true,
+1658
++    241:						},
+1659
++    242:						{
+1660
++    243:							Name: "",
+1661
++    244:							DisplayName: "### Next steps after the evaluation request is " +
+1662
++    245:								"accepted\n\n- Ensure users doing the evaluation are assigned to roles with the " +
+1663
++    246:								"appropriate permissions.\n    \n- Users doing the evaluation must add devices, " +
+1664
++    247:								"assign devices to this service and apply subscriptions from the devices page.",
+1665
++    248:							CharacteristicKey: "",
+1666
++    249:							Index:             14,
+1667
++    250:							Description:       "",
+1668
++    251:							DetailDescription: "",
+1669
++    252:							UserVisibility:    true,
+1670
++    253:							Type:              "fixed-text",
+1671
+ 916 254:						},
+1672
+ 917 255:					},
+1673
+ 918 256:				},
+1674
+ 919 257:				Metering: []models.Metering{},
+1675
+ 920 258:			},
+1676
+ 921 259:		},
+1677
++    260:		"BAR": {},
+1678
+ 922 261:	}
+1679
+ 923 262:}
+1680
+diff --git a/internal/constants/eval-catalog-metadata_test.go b/internal/constants/eval-catalog-metadata_test.go
+1681
+index 838ea3699..d77f5f756 100644
+1682
+--- a/internal/constants/eval-catalog-metadata_test.go
+1683
++++ b/internal/constants/eval-catalog-metadata_test.go
+1684
+@@ -13,30 +13,10 @@ func TestGetEvalCatalogMetadataMap(t *testing.T) {
+1685
+ 13 13:		expectedResult string
+1686
+ 14 14:	}{
+1687
+ 15 15:		{
+1688
+-16   :			name:           "Success - HPECC",
+1689
++   16:			name:           "Failure - Invalid Country Code Error",
+1690
+ 17 17:			slug:           "HPECC",
+1691
+ 18 18:			expectedResult: "R6Z73AAE",
+1692
+ 19 19:		},
+1693
+-20   :		{
+1694
+-21   :			name:           "Success - BAR",
+1695
+-22   :			slug:           "BAR",
+1696
+-23   :			expectedResult: "R7A23AAE",
+1697
+-24   :		},
+1698
+-25   :		{
+1699
+-26   :			name:           "Success - SFM",
+1700
+-27   :			slug:           "SFM",
+1701
+-28   :			expectedResult: "R9R11AAE",
+1702
+-29   :		},
+1703
+-30   :		{
+1704
+-31   :			name:           "Success - MLDE",
+1705
+-32   :			slug:           "MLDE",
+1706
+-33   :			expectedResult: "S0Z12SRK",
+1707
+-34   :		},
+1708
+-35   :		{
+1709
+-36   :			name:           "Success - DATASVS",
+1710
+-37   :			slug:           "DATASVS",
+1711
+-38   :			expectedResult: "S1S62AAE",
+1712
+-39   :		},
+1713
+ 40 20:	}
+1714
+ 41 21:	for _, tt := range tests {
+1715
+ 42 22:		t.Run(tt.name, func(t *testing.T) {
+1716
+diff --git a/internal/models-validator/validator.go b/internal/models-validator/validator.go
+1717
+index 25b0db865..1fb53ac1c 100644
+1718
+--- a/internal/models-validator/validator.go
+1719
++++ b/internal/models-validator/validator.go
+1720
+@@ -4,7 +4,7 @@ import (
+1721
+ 4 4:	"github.com/go-playground/validator/v10"
+1722
+ 5 5:
+1723
+ 6 6:	"github.com/glcp/qtc/internal/utils"
+1724
+-7  :)
+1725
++  7:
+1726
+ 8 8:
+1727
+ 9 9:// SetupRequestBodyValidator initializes the validator and registers custom validators
+1728
+ 10 10:func SetupRequestBodyValidator() *validator.Validate {
+1729
+diff --git a/internal/pkg/logging/logging.go b/internal/pkg/logging/logging.go
+1730
+index 98a5dbfe0..8dc6dd1ea 100644
+1731
+--- a/internal/pkg/logging/logging.go
+1732
++++ b/internal/pkg/logging/logging.go
+1733
+@@ -27,9 +27,8 @@ func AddStrValueToContextLogger(ctx context.Context, key, value string) context.
+1734
+ 27 27:// sent using Msg() or Send()
+1735
+ 28 28:func LogError(ctx context.Context, err ...string) *zerolog.Event {
+1736
+ 29 29:	event := log.Ctx(ctx).Error().Caller(1)
+1737
+-30  :	if len(err) == 0 {
+1738
+-31  :		return event
+1739
+-32  :	}
+1740
++  30:	len(err) == 0 {
+1741
++  31:
+1742
+ 33 32:
+1743
+ 34 33:	return event.Err(errors.New(err[0]))
+1744
+ 35 34:}
+1745
+@@ -37,7 +36,7 @@ func LogError(ctx context.Context, err ...string) *zerolog.Event {
+1746
+ 37 36:// LogWarn uses the context logger and returns a zerolog event that will be logged
+1747
+ 38 37:// to at the warn level and can be added to with the normal Event functions. It must be
+1748
+ 39 38:// sent using Msg() or Send()
+1749
+-40  :func LogWarn(ctx context.Context, err ...error) *zerolog.Event {
+1750
++  39:LogWarn(ctx context.Context, err ...error) *zerolog.Event {
+1751
+ 41 40:	event := log.Ctx(ctx).Warn().Caller(1)
+1752
+ 42 41:	if len(err) == 0 {
+1753
+ 43 42:		return event
+1754
+diff --git a/internal/pkg/models/metadata.go b/internal/pkg/models/metadata.go
+1755
+index 302c6e34d..fcc97a8e1 100644
+1756
+--- a/internal/pkg/models/metadata.go
+1757
++++ b/internal/pkg/models/metadata.go
+1758
+@@ -10,57 +10,43 @@ type FixedOptions struct {
+1759
+ 10 10:	FormIdProd       string `json:"formIdProd"`
+1760
+ 11 11:}
+1761
+ 12 12:type Validation struct {
+1762
+-13   :	Regex string `json:"regex,omitempty"`
+1763
++   13:	Regex string `json:"regex"`
+1764
+ 14 14:}
+1765
+ 15 15:type AllowedValues struct {
+1766
+-16   :	Name        string `json:"name,omitempty"`
+1767
+-17   :	Code        string `json:"code,omitempty"`
+1768
+-18   :	Description string `json:"description,omitempty"`
+1769
+-19   :	Index       int    `json:"index,omitempty"`
+1770
+-20   :	IsDefault   bool   `json:"isDefault,omitempty"`
+1771
+-21   :	I18nKey     string `json:"i18nKey,omitempty"`
+1772
++   16:	Name        string `json:"name"`
+1773
++   17:	Code        string `json:"code"`
+1774
++   18:	Description string `json:"description"`
+1775
++   19:	Index       int    `json:"index"`
+1776
++   20:	IsDefault   bool   `json:"isDefault"`
+1777
+ 22 21:}
+1778
+ 23 22:type Options struct {
+1779
+-24   :	Name              string          `json:"name,omitempty"`
+1780
+-25   :	DisplayName       string          `json:"displayName,omitempty"`
+1781
+-26   :	CharacteristicKey string          `json:"characteristicKey,omitempty"`
+1782
+-27   :	Description       string          `json:"description,omitempty"`
+1783
+-28   :	DetailDescription string          `json:"detailDescription,omitempty"`
+1784
++   23:	Name              string          `json:"name"`
+1785
++   24:	DisplayName       string          `json:"displayName"`
+1786
++   25:	CharacteristicKey string          `json:"characteristicKey"`
+1787
++   26:	Description       string          `json:"description"`
+1788
++   27:	DetailDescription string          `json:"detailDescription"`
+1789
+ 29 28:	Type              string          `json:"type"`
+1790
+-30   :	Validation        *Validation     `json:"validation,omitempty"`
+1791
++   29:	Validation        Validation      `json:"validation,omitempty"`
+1792
+ 31 30:	AllowedValues     []AllowedValues `json:"allowedValues,omitempty"`
+1793
+ 32 31:	Index             int             `json:"index"`
+1794
+ 33 32:	UserVisibility    bool            `json:"userVisibility"`
+1795
+ 34 33:	Mandatory         bool            `json:"mandatory,omitempty"`
+1796
+-35   :	Heading           *Heading        `json:"heading,omitempty"`
+1797
+-36   :	I18nKey           string          `json:"i18nKey,omitempty"`
+1798
+-37   :	Subtitle          *Subtitle       `json:"subtitle,omitempty"`
+1799
+ 38 34:}
+1800
+ 39 35:type MarketplaceInfo struct {
+1801
+-40   :	Sku            string        `json:"sku"`
+1802
+-41   :	Description    string        `json:"description,omitempty"`
+1803
+-42   :	FixedOptions   *FixedOptions `json:"fixed-options,omitempty"` // nolint: tagliatelle
+1804
+-43   :	Options        []Options     `json:"options"`
+1805
+-44   :	HeaderTestI18n string        `json:"headerTextI18nKey"`
+1806
+-45   :	FooterTestI18n string        `json:"footerTextI18nKey"`
+1807
+-46   :}
+1808
+-47   :type Heading struct {
+1809
+-48   :	DisplayName string `json:"displayName,omitempty"`
+1810
+-49   :	I18nKey     string `json:"i18nKey,omitempty"`
+1811
+-50   :}
+1812
+-51   :type Subtitle struct {
+1813
+-52   :	DisplayName string `json:"displayName,omitempty"`
+1814
+-53   :	I18nKey     string `json:"i18nKey,omitempty"`
+1815
++   36:	Sku          string       `json:"sku"`
+1816
++   37:	Description  string       `json:"description"`
+1817
++   38:	FixedOptions FixedOptions `json:"fixed-options"` // nolint: tagliatelle
+1818
++   39:	Options      []Options    `json:"options"`
+1819
+ 54 40:}
+1820
+ 55 41:type (
+1821
+ 56 42:	Metering struct{}
+1822
+ 57 43:	Metadata struct {
+1823
+-58   :		MarketplaceInfo *MarketplaceInfo `json:"marketplaceInfo"`
+1824
+-59   :		Metering        []Metering       `json:"metering,omitempty"`
+1825
++   44:		MarketplaceInfo MarketplaceInfo `json:"marketplaceInfo"`
+1826
++   45:		Metering        []Metering      `json:"metering"`
+1827
+ 60 46:	}
+1828
+ 61 47:)
+1829
+ 62 48:
+1830
+ 63 49:type Plan struct {
+1831
+-64   :	ID       string    `json:"id"`
+1832
+-65   :	Metadata *Metadata `json:"metadata"`
+1833
++   50:	ID       string   `json:"id"`
+1834
++   51:	Metadata Metadata `json:"metadata"`
+1835
+ 66 52:}
+1836
+diff --git a/sonar-project.properties b/sonar-project.properties
+1837
+index 8c97fc064..156cab1b2 100644
+1838
+--- a/sonar-project.properties
+1839
++++ b/sonar-project.properties
+1840
+@@ -4,9 +4,9 @@ sonar.projectVersion=1.0.0
+1841
+ 4 4:
+1842
+ 5 5:
+1843
+ 6 6:sonar.sources=./cmd,./internal
+1844
+-7  :sonar.exclusions=**/*_test.go,internal/constants/eval-catalog-metadata.go
+1845
++  7:sonar.exclusions=**/*_test.go
+1846
+ 8 8:
+1847
+ 9 9:sonar.tests=.
+1848
+ 10 10:sonar.test.inclusions=**/*_test.go
+1849
+ 11 11:sonar.coverage.exclusions=internal/utils/launch_darkly_util.go
+1850
+-12  :sonar.go.coverage.reportPaths=bin/cov.out
+1851
++  12:sonar.go.coverage.reportPaths=bin/cov.out
+1852
+\ No newline at end of file
+1853
+
+1854
+closing Git-Diff output ----------------
+1855
+Before lint output {'.github/mci-variables.yaml': [], '.github/workflows/managed-ci-pr.yaml': [], 'README.md': [], 'cmd/qtc/main.go': [], 'internal/constants/eval-catalog-metadata.go': [], 'internal/constants/eval-catalog-metadata_test.go': [], 'internal/models-validator/validator.go': [], 'internal/pkg/logging/logging.go': [], 'internal/pkg/models/metadata.go': [], 'sonar-project.properties': []}
+1856
+After lint output {'.github/mci-variables.yaml': [], '.github/workflows/managed-ci-pr.yaml': [], 'README.md': [], 'cmd/qtc/main.go': [], 'internal/constants/eval-catalog-metadata.go': [], 'internal/constants/eval-catalog-metadata_test.go': [], 'internal/models-validator/validator.go': [], 'internal/pkg/logging/logging.go': [], 'internal/pkg/models/metadata.go': [], 'sonar-project.properties': []}
+1857
+{}

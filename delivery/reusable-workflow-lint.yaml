@@ -1,0 +1,82 @@
+name: Linting PR changes only
+
+on:
+  workflow_call:
+    inputs:
+      head_branch:
+        description: "Head or PR branch"
+        type: string
+        required: true
+      target_branch:
+        description: "Targat or Base branch in Pull request"
+        type: string
+        required: true
+      lint_logfile_name:
+        description: "lint log file name (usually super-linter.log)"
+        type: string
+        required: true
+      lint_logfile_path:
+        description: "lint log file path"
+        type: string
+        required: true
+
+jobs:
+  Git-operations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: Set Completion Time
+        run: |
+          git diff origin/${{ input.target_branch }} origin/${{ input.head_branch}} | gawk '
+          match($0,"^@@ -([0-9]+),([0-9]+) [+]([0-9]+),([0-9]+) @@",a){
+            left=a[1]
+            ll=length(a[2])
+            right=a[3]
+            rl=length(a[4])
+          }
+          /^(---|\+\+\+|[^-+ ])/{ print;next }
+          { line=substr($0,2) }
+          /^[-]/{ printf "-%"ll"s %"rl"s:%s\n",left++,""     ,line;next }
+          /^[+]/{ printf "+%"ll"s %"rl"s:%s\n",""    ,right++,line;next }
+                { printf " %"ll"s %"rl"s:%s\n",left++,right++,line }
+          ' > git-diff.txt
+          cat git-diff.txt
+
+      - name: Upload git difference
+        uses: actions/upload-artifact@v3
+        with:
+          name: git-diff.txt
+          path: git-diff.txt
+
+  lint-operations:
+    needs: Git-operations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          ref: ${{ input.head_branch }}
+
+      - name: Download Super lint log
+        if: inputs.lint_logfile_name != ''
+        uses: actions/download-artifact@master
+        with:
+          name: ${{ inputs.lint_logfile_name }}
+          path: ${{ inputs.lint_logfile_path }}
+
+      - name: Download Git diff artifact
+        uses: actions/download-artifact@master
+        with:
+          name: git-diff.txt
+          path: git-diff.txt
+
+      - name: execute py script 
+        if: always()
+        run: python git-lint.py        
+  

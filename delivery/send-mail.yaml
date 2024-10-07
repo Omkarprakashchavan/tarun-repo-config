@@ -1,0 +1,146 @@
+name: Scheduled Lint Repositories
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 6'
+
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.prepare_repository.outputs.matrix }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          repository: glcp/managed-ci-workflow
+          token: ${{ secrets.GLCP_GH_TOKEN }}
+          path: managed-ci
+      - name: prepare repositories for linting
+        id: prepare_repository
+        run: |
+          output_json=$(yq -I=0 -o=json '{"include": .modules[].repositories}' managed-ci/workflow-deployment.yaml | jq -c '.include |= map({name: .name})')
+          echo $output_json
+          echo "matrix=$output_json" >> $GITHUB_OUTPUT
+          
+  run-lint:
+    runs-on: ubuntu-latest
+    needs: setup
+    permissions:
+      security-events: write
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+    steps:
+      - name: Generate github app token
+        id: generate_token
+        uses: tibdex/github-app-token@v1.7.0
+        with:
+          app_id: ${{ secrets.ORG_POLICY_GITHUB_APP_ID }}
+          private_key: ${{ secrets.ORG_POLICY_GITHUB_APP_PRIVATE_KEY }}
+          installation_id: ${{ secrets.ORG_POLICY_GITHUB_APP_INSTALL_ID }}
+
+          
+      - name: Use temporary github token as Env variable
+        env:
+          GITHUB_APP_TOKEN: ${{ steps.generate_token.outputs.token }}
+        run: |
+          echo "The generated token is masked: ${GITHUB_APP_TOKEN}"
+          echo "GITHUB_APP_TOKEN=$GITHUB_APP_TOKEN" >> $GITHUB_ENV
+          echo "GITHUB_PR_TOKEN=${{ secrets.PULL_REQUEST_SECRET }}" >> $GITHUB_ENV
+        shell: bash
+        
+      - name: Checkout application code
+        uses: actions/checkout@v3
+        with:
+          repository: glcp/${{ matrix.name }}
+          token: ${{ env.GITHUB_APP_TOKEN }}
+          fetch-depth: 0
+
+      - name: Clone the report repository
+        uses: actions/checkout@v3.3.0
+        with:
+           repository: glcp/devops-reports
+           token: ${{ env.GITHUB_APP_TOKEN }}
+           ref: main
+           path: devops-reports
+
+      - name: Checkout actions code
+        uses: actions/checkout@v3
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+          path: org-policies
+          token: ${{ env.GITHUB_APP_TOKEN }}
+
+      - name: Lint Code Base
+        uses: super-linter/super-linter/slim@v5
+        id: Lint-Code-Base
+        env:
+          DEFAULT_BRANCH: "main"
+          GITHUB_TOKEN: ${{ env.GITHUB_APP_TOKEN }}
+
+      - name: Send email
+        if: failure()
+        run: |
+          ls -lrta
+          ls -lrt devops-reports/policy-reports
+          csv_file="devops-reports/policy-reports/all-repos.csv"
+          app_name=$(echo $GIT_REPO | cut -d "/" -f2)
+          while IFS="," read -r repo_name repo_url developer manager director primary_lang other_lang topics
+          do
+            if [[ "$repo_name" == "$app_name" ]]; then
+              echo "$developer"
+              developer_email=$developer
+              echo "$manager"
+              manager_email=$manager
+              echo "$director"
+              echo ""
+            fi
+          done < <(tail -n +2 "$csv_file" | tr -d '"')
+          python3 org-policies/send_email.py "$developer_email" "$manager_email"
+        env:
+          EMAIL_FROM: "Automation <glcp-giotto@hpe.com>"
+          EMAIL_SERVER_NAME: email-smtp.us-west-2.amazonaws.com
+          EMAIL_SERVER_PORTNUM: 465
+          EMAIL_SERVER_USERNAME: ${{ secrets.DEVSECOPS_AWS_SMTP_USERNAME }}
+          EMAIL_SERVER_PASSWORD: ${{ secrets.DEVSECOPS_AWS_SMTP_PASSWORD }}
+          GIT_REPO: glcp/${{ matrix.name }}  #glcp/repo-name
+
+      - name: Set Completion Time
+        if: always()
+        id: set_time
+        run: echo "COMPLETION_TIME=$(date -u +"%Y-%m-%d %H:%M:%S")" >> $GITHUB_OUTPUT
+
+
+      - name: Update Report
+        if: ${{ always() && !cancelled() }}
+        run: |
+          set -x
+          reponame=$(echo ${{ matrix.name }} | cut -d "/" -f2)
+          ls -lrt devops-reports/
+          python -m pip install --upgrade pip
+          pip install pyyaml
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          python - <<EOF
+          import yaml
+          data = {
+              "lint_status": "${{steps.Lint-Code-Base.outcome}}",
+              "run_date": "${{ steps.set_time.outputs.COMPLETION_TIME }}"
+          }
+          output = [data]
+          output_file = "devops-reports/lint-reports/${reponame}.yaml"
+          with open(output_file, "a") as f:
+              yaml.dump(output, f, default_flow_style=False)
+          EOF
+          cd devops-reports
+          cat lint-reports/${reponame}.yaml
+          git config --global user.email "glcp-giotto@hpe.com" #"glcp-giotto@hpe.com"
+          git config --global user.name "glcp giotto" #"glcp giotto"
+          echo "Add and commit report for lint-scan-reports/${reponame}.yaml"
+          ls -lart lint-reports
+          git add lint-reports/${reponame}.yaml
+          git commit -m "Update report for ${reponame}"
+          git push origin main 

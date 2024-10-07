@@ -1,0 +1,39 @@
+name: update tags in workflow
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Enter unique branch name'
+        type: string
+        required: true 
+
+jobs:
+  create-update-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      
+      - name: Set Up Git
+        run: |
+          git config --global user.email "glcp-giotto@hpe.com"
+          git config --global user.name "glcp giotto"
+
+      - name: Get branch Number
+        id: branch
+        run: |
+          echo "BRANCH_NAME=${{ github.event.inputs.branch_name }}" >> $GITHUB_OUTPUT
+      
+      - name: Create Branch
+        run: |
+          branch_name="${{ steps.branch.outputs.BRANCH_NAME }}"
+          new_branch="rc-$branch_name"
+          echo $new_branch
+          git checkout $new_branch 2>/dev/null || git checkout -b $new_branch 2>/dev/null
+          find "workflows" -type f -exec sed -i "s/@main/@$branch_name/" {} +
+          find "workflows" -type f -exec sed -i "s/ref: main/ref: $branch_name/g" {} +
+          git add .
+          git commit -a -m "updated the workflow tags to $branch_name"
+          git push origin "$new_branch" 2>/dev/null || git push --set-upstream origin "$new_branch" 2>/dev/null
+

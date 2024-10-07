@@ -1,0 +1,621 @@
+/usr/bin/docker run --name ghcriosuperlintersuperlinterslimv5_b2355a --label 621fac --workdir /github/workspace --rm -e "GH_TOKEN" -e "GLCP_BUILD_SYSTEM" -e "APP_NAME" -e "APP_ID" -e "GO_VERSION" -e "APP_DIR" -e "IMAGE_REGISTRIES__0" -e "PR_VALIDATION" -e "LINT_WORKSPACE_BACKUP" -e "UNIT_TEST_WORKSPACE_BACKUP" -e "VERSION" -e "SKIP_COREUPDATE" -e "SKIP_AUTOMATION_BUILD" -e "CHANNEL" -e "CUSTOM_TAG" -e "PRODUCTS__0__BUILD_TYPE" -e "PRODUCTS__0__DOCKERFILE_PATH" -e "PRODUCTS__0__IMAGE_REGISTRY" -e "PRODUCTS__0__TARGET" -e "PRODUCTS__0__APP_NAME" -e "PRODUCTS__0__APP_ID" -e "PRODUCTS__0__REGISTRY" -e "PRODUCTS__0__DOCKER_PUSH" -e "PRODUCTS__1__BUILD_TYPE" -e "PRODUCTS__1__DOCKERFILE_PATH" -e "PRODUCTS__1__IMAGE_REGISTRY" -e "PRODUCTS__1__TARGET" -e "PRODUCTS__1__TAG_EXTENSION" -e "PRODUCTS__1__APP_NAME" -e "PRODUCTS__1__APP_ID" -e "PRODUCTS__1__REGISTRY" -e "PRODUCTS__1__DOCKER_PUSH" -e "VALIDATE_ALL_CODEBASE" -e "FILTER_REGEX_EXCLUDE" -e "DEFAULT_BRANCH" -e "GITHUB_TOKEN" -e "CREATE_LOG_FILE" -e "LOG_FILE" -e "HOME" -e "GITHUB_JOB" -e "GITHUB_REF" -e "GITHUB_SHA" -e "GITHUB_REPOSITORY" -e "GITHUB_REPOSITORY_OWNER" -e "GITHUB_REPOSITORY_OWNER_ID" -e "GITHUB_RUN_ID" -e "GITHUB_RUN_NUMBER" -e "GITHUB_RETENTION_DAYS" -e "GITHUB_RUN_ATTEMPT" -e "GITHUB_REPOSITORY_ID" -e "GITHUB_ACTOR_ID" -e "GITHUB_ACTOR" -e "GITHUB_TRIGGERING_ACTOR" -e "GITHUB_WORKFLOW" -e "GITHUB_HEAD_REF" -e "GITHUB_BASE_REF" -e "GITHUB_EVENT_NAME" -e "GITHUB_SERVER_URL" -e "GITHUB_API_URL" -e "GITHUB_GRAPHQL_URL" -e "GITHUB_REF_NAME" -e "GITHUB_REF_PROTECTED" -e "GITHUB_REF_TYPE" -e "GITHUB_WORKFLOW_REF" -e "GITHUB_WORKFLOW_SHA" -e "GITHUB_WORKSPACE" -e "GITHUB_ACTION" -e "GITHUB_EVENT_PATH" -e "GITHUB_ACTION_REPOSITORY" -e "GITHUB_ACTION_REF" -e "GITHUB_PATH" -e "GITHUB_ENV" -e "GITHUB_STEP_SUMMARY" -e "GITHUB_STATE" -e "GITHUB_OUTPUT" -e "GITHUB_ACTION_PATH" -e "RUNNER_OS" -e "RUNNER_ARCH" -e "RUNNER_NAME" -e "RUNNER_ENVIRONMENT" -e "RUNNER_TOOL_CACHE" -e "RUNNER_TEMP" -e "RUNNER_WORKSPACE" -e "ACTIONS_RUNTIME_URL" -e "ACTIONS_RUNTIME_TOKEN" -e "ACTIONS_CACHE_URL" -e "ACTIONS_RESULTS_URL" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" -v "/home/runner/work/_temp/_runner_file_commands":"/github/file_commands" -v "/home/runner/work/qtc/qtc":"/github/workspace" ghcr.io/super-linter/super-linter:slim-v5
+127
+--------------------------------------------------------------------------------
+128
+
+129
+                              /@@#///////@@/(@//@%/(@.@(       @@
+130
+                          @@//////////////////////////////#*  @@@
+131
+                        @////@//(///////////@@@@@///@//@/@**//@@(
+132
+                      @///////@///////////////@@@@    (           @,
+133
+                     @/(&/@////////////////////                     @
+134
+                    @////////////////////////@@                      @
+135
+                  @%////////(//////////%/////&@            @@       *,@           ______________
+136
+             @@@@@/@/#/////(&//////////////////                       .@         /              \
+137
+        *@@@@@.    .%///(//@//////////////////&.   .@@,                 @%      / Don't mind me  \
+138
+      @@%           .&@&&/@.@//&/////(//////////    @@@@@@@@@         .. &@    / I'm just looking \
+139
+    @@%               @@@@@   @&/////////////////#   @/       V  @@/ ,@@@ @   <  for some trash... |
+140
+@@@%                   @@@@        .%@@@@//////#@ @   @@         @     .,.     \__________________/
+141
+                                          @@@/@(  (@@@@% @/\      %
+142
+                                           @@@@(    .     .@@/\   #
+143
+                                             @                  %@%
+144
+
+145
+--------------------------------------------------------------------------------
+146
+2024-04-02 15:11:14 [INFO]   ---------------------------------------------
+147
+2024-04-02 15:11:14 [INFO]   --- GitHub Actions Multi Language Linter ----
+148
+2024-04-02 15:11:14 [INFO]    - Image Creation Date:[2023-12-02T08:58:52Z]
+149
+2024-04-02 15:11:14 [INFO]    - Image Revision:[a8150b40c89574adb5f68bf9502b890a236a06b3]
+150
+2024-04-02 15:11:14 [INFO]    - Image Version:[a8150b40c89574adb5f68bf9502b890a236a06b3]
+151
+2024-04-02 15:11:14 [INFO]   ---------------------------------------------
+152
+2024-04-02 15:11:14 [INFO]   ---------------------------------------------
+153
+2024-04-02 15:11:14 [INFO]   The Super-Linter source code can be found at:
+154
+2024-04-02 15:11:14 [INFO]    - https://github.com/super-linter/super-linter
+155
+2024-04-02 15:11:14 [INFO]   ---------------------------------------------
+156
+Removing Languages from LANGUAGE_ARRAY for slim image...
+157
+found item:[ARM], removing Language...
+158
+found item:[CSHARP], removing Language...
+159
+found item:[ENV], removing Language...
+160
+found item:[POWERSHELL], removing Language...
+161
+found item:[RUST_2015], removing Language...
+162
+found item:[RUST_2018], removing Language...
+163
+found item:[RUST_2021], removing Language...
+164
+found item:[RUST_CLIPPY], removing Language...
+165
+Removing Linters from LINTER_NAMES_ARRAY for slim image...
+166
+found item:[ARM], removing linter...
+167
+found item:[CSHARP], removing linter...
+168
+found item:[ENV], removing linter...
+169
+found item:[POWERSHELL], removing linter...
+170
+found item:[RUST_2015], removing linter...
+171
+found item:[RUST_2018], removing linter...
+172
+found item:[RUST_2021], removing linter...
+173
+found item:[RUST_CLIPPY], removing linter...
+174
+2024-04-02 15:11:14 [INFO]   --------------------------------------------
+175
+2024-04-02 15:11:14 [INFO]   Gathering GitHub information...
+176
+2024-04-02 15:11:14 [INFO]   Successfully found:[GITHUB_SHA], value:[5d860f298388b84373b86e39160ce59accae6e90]
+177
+2024-04-02 15:11:14 [INFO]   Successfully found:[GITHUB_WORKSPACE], value:[/github/workspace]
+178
+2024-04-02 15:11:14 [INFO]   Successfully found:[GITHUB_EVENT_PATH], value:[/github/workflow/event.json]
+179
+2024-04-02 15:11:14 [INFO]   Successfully found:[GITHUB_ORG], value:[glcp]
+180
+2024-04-02 15:11:14 [INFO]   Successfully found:[GITHUB_REPO], value:[qtc]
+181
+2024-04-02 15:11:14 [INFO]   Successfully found:[GITHUB_TOKEN]
+182
+2024-04-02 15:11:14 [INFO]   Successfully found:[GITHUB_REPOSITORY], value:[glcp/qtc]
+183
+2024-04-02 15:11:14 [INFO]   Successfully found:[GITHUB_RUN_ID], value:[8525140073]
+184
+2024-04-02 15:11:14 [INFO]   --------------------------------------------
+185
+2024-04-02 15:11:14 [INFO]   Gathering user validation information...
+186
+2024-04-02 15:11:14 [INFO]   - Only validating [new], or [edited] files in code base...
+187
+2024-04-02 15:11:16 [INFO]   ----------------------------------------------
+188
+2024-04-02 15:11:16 [INFO]   User provided file:[/github/workspace/.github/linters/.golangci.yaml] exists, setting rules file...
+189
+You are not currently on a branch.
+190
+Please specify which branch you want to merge with.
+191
+See git-pull(1) for details.
+192
+
+193
+    git pull <remote> <branch>
+194
+
+195
+2024-04-02 15:11:19 [INFO]   ---------------------------------
+196
+2024-04-02 15:11:19 [INFO]   ------ File list to check: ------
+197
+2024-04-02 15:11:19 [INFO]   ---------------------------------
+198
+2024-04-02 15:11:19 [INFO]   ----------------------------------------------
+199
+2024-04-02 15:11:19 [INFO]   Successfully gathered list of files...
+200
+2024-04-02 15:11:20 [INFO]   
+201
+2024-04-02 15:11:20 [INFO]   ----------------------------------------------
+202
+2024-04-02 15:11:20 [INFO]   ----------------------------------------------
+203
+2024-04-02 15:11:20 [INFO]   Linting [GITHUB_ACTIONS] files...
+204
+2024-04-02 15:11:20 [INFO]   ----------------------------------------------
+205
+2024-04-02 15:11:20 [INFO]   ----------------------------------------------
+206
+2024-04-02 15:11:20 [INFO]   ---------------------------
+207
+2024-04-02 15:11:20 [INFO]   File:[/github/workspace/.github/workflows/managed-ci-pr.yaml]
+208
+2024-04-02 15:11:20 [INFO]    - File:[managed-ci-pr.yaml] was linted with [actionlint] successfully
+209
+2024-04-02 15:11:20 [INFO]   
+210
+2024-04-02 15:11:20 [INFO]   ----------------------------------------------
+211
+2024-04-02 15:11:20 [INFO]   ----------------------------------------------
+212
+2024-04-02 15:11:20 [INFO]   Linting [GITLEAKS] files...
+213
+2024-04-02 15:11:20 [INFO]   ----------------------------------------------
+214
+2024-04-02 15:11:20 [INFO]   ----------------------------------------------
+215
+2024-04-02 15:11:20 [INFO]   ---------------------------
+216
+2024-04-02 15:11:20 [INFO]   File:[/github/workspace/.github/mci-variables.yaml]
+217
+2024-04-02 15:11:20 [INFO]    - File:[mci-variables.yaml] was linted with [gitleaks] successfully
+218
+2024-04-02 15:11:20 [INFO]      - Command output:
+219
+------
+220
+3:11PM INF scan completed in 2.78ms
+221
+3:11PM INF no leaks found
+222
+------
+223
+2024-04-02 15:11:20 [INFO]   ---------------------------
+224
+2024-04-02 15:11:20 [INFO]   File:[/github/workspace/.github/workflows/managed-ci-pr.yaml]
+225
+2024-04-02 15:11:20 [INFO]    - File:[managed-ci-pr.yaml] was linted with [gitleaks] successfully
+226
+2024-04-02 15:11:20 [INFO]      - Command output:
+227
+------
+228
+3:11PM INF scan completed in 2.34ms
+229
+3:11PM INF no leaks found
+230
+------
+231
+2024-04-02 15:11:20 [INFO]   ---------------------------
+232
+2024-04-02 15:11:20 [INFO]   File:[/github/workspace/README.md]
+233
+2024-04-02 15:11:20 [INFO]    - File:[README.md] was linted with [gitleaks] successfully
+234
+2024-04-02 15:11:20 [INFO]      - Command output:
+235
+------
+236
+3:11PM INF scan completed in 3.11ms
+237
+3:11PM INF no leaks found
+238
+------
+239
+2024-04-02 15:11:20 [INFO]   ---------------------------
+240
+2024-04-02 15:11:20 [INFO]   File:[/github/workspace/cmd/qtc/main.go]
+241
+2024-04-02 15:11:20 [INFO]    - File:[main.go] was linted with [gitleaks] successfully
+242
+2024-04-02 15:11:20 [INFO]      - Command output:
+243
+------
+244
+3:11PM INF scan completed in 1.66ms
+245
+3:11PM INF no leaks found
+246
+------
+247
+2024-04-02 15:11:20 [INFO]   ---------------------------
+248
+2024-04-02 15:11:20 [INFO]   File:[/github/workspace/internal/models-validator/validator.go]
+249
+2024-04-02 15:11:20 [INFO]    - File:[validator.go] was linted with [gitleaks] successfully
+250
+2024-04-02 15:11:20 [INFO]      - Command output:
+251
+------
+252
+3:11PM INF scan completed in 1.79ms
+253
+3:11PM INF no leaks found
+254
+------
+255
+2024-04-02 15:11:20 [INFO]   ---------------------------
+256
+2024-04-02 15:11:20 [INFO]   File:[/github/workspace/internal/pkg/logging/logging.go]
+257
+2024-04-02 15:11:20 [INFO]    - File:[logging.go] was linted with [gitleaks] successfully
+258
+2024-04-02 15:11:20 [INFO]      - Command output:
+259
+------
+260
+3:11PM INF scan completed in 2.06ms
+261
+3:11PM INF no leaks found
+262
+------
+263
+2024-04-02 15:11:21 [INFO]   
+264
+2024-04-02 15:11:21 [INFO]   ----------------------------------------------
+265
+2024-04-02 15:11:21 [INFO]   ----------------------------------------------
+266
+2024-04-02 15:11:21 [INFO]   Linting [GO] files...
+267
+2024-04-02 15:11:21 [INFO]   ----------------------------------------------
+268
+2024-04-02 15:11:21 [INFO]   ----------------------------------------------
+269
+2024-04-02 15:11:21 [INFO]   ---------------------------
+270
+2024-04-02 15:11:21 [INFO]   File:[/github/workspace/cmd/qtc/main.go]
+271
+2024-04-02 15:11:25 [ERROR]   Found errors in [golangci-lint] linter!
+272
+2024-04-02 15:11:25 [ERROR]   Error code: 1. Command output:
+273
+------
+274
+Error: cmd/qtc/main.go:6:2: string literal not terminated (typecheck)
+275
+	"fmt
+276
+	^
+277
+------
+278
+2024-04-02 15:11:25 [INFO]   ---------------------------
+279
+2024-04-02 15:11:25 [INFO]   File:[/github/workspace/internal/models-validator/validator.go]
+280
+2024-04-02 15:11:25 [ERROR]   Found errors in [golangci-lint] linter!
+281
+2024-04-02 15:11:25 [ERROR]   Error code: 1. Command output:
+282
+------
+283
+Error: internal/models-validator/validator.go:10:1: missing import path (typecheck)
+284
+func SetupRequestBodyValidator() *validator.Validate {
+285
+^
+286
+Error: internal/models-validator/validator.go:15:2: expected declaration, found 'return' (typecheck)
+287
+	return requestBodyValidator
+288
+	^
+289
+------
+290
+2024-04-02 15:11:26 [INFO]   ---------------------------
+291
+2024-04-02 15:11:26 [INFO]   File:[/github/workspace/internal/pkg/logging/logging.go]
+292
+2024-04-02 15:11:33 [ERROR]   Found errors in [golangci-lint] linter!
+293
+2024-04-02 15:11:33 [ERROR]   Error code: 1. Command output:
+294
+------
+295
+Error: internal/pkg/logging/logging.go:30:16: expected ';', found '{' (typecheck)
+296
+	len(err) == 0 {
+297
+	              ^
+298
+Error: internal/pkg/logging/logging.go:39:1: expected declaration, found LogWarn (typecheck)
+299
+LogWarn(ctx context.Context, err ...error) *zerolog.Event {
+300
+^
+301
+------
+302
+2024-04-02 15:11:33 [INFO]   
+303
+2024-04-02 15:11:33 [INFO]   ----------------------------------------------
+304
+2024-04-02 15:11:33 [INFO]   ----------------------------------------------
+305
+2024-04-02 15:11:33 [INFO]   Linting [JSCPD] files...
+306
+2024-04-02 15:11:33 [INFO]   ----------------------------------------------
+307
+2024-04-02 15:11:33 [INFO]   ----------------------------------------------
+308
+2024-04-02 15:11:33 [INFO]   ---------------------------
+309
+2024-04-02 15:11:33 [INFO]   File:[/github/workspace/.github/mci-variables.yaml]
+310
+2024-04-02 15:11:34 [INFO]    - File:[mci-variables.yaml] was linted with [jscpd] successfully
+311
+2024-04-02 15:11:34 [INFO]      - Command output:
+312
+------
+313
+Found 0 clones.
+314
+Detection time:: 11.479ms
+315
+------
+316
+2024-04-02 15:11:34 [INFO]   ---------------------------
+317
+2024-04-02 15:11:34 [INFO]   File:[/github/workspace/.github/workflows/managed-ci-pr.yaml]
+318
+2024-04-02 15:11:35 [INFO]    - File:[managed-ci-pr.yaml] was linted with [jscpd] successfully
+319
+2024-04-02 15:11:35 [INFO]      - Command output:
+320
+------
+321
+Found 0 clones.
+322
+Detection time:: 17.961ms
+323
+------
+324
+2024-04-02 15:11:35 [INFO]   ---------------------------
+325
+2024-04-02 15:11:35 [INFO]   File:[/github/workspace/README.md]
+326
+2024-04-02 15:11:35 [INFO]    - File:[README.md] was linted with [jscpd] successfully
+327
+2024-04-02 15:11:35 [INFO]      - Command output:
+328
+------
+329
+Found 0 clones.
+330
+Detection time:: 23.775ms
+331
+------
+332
+2024-04-02 15:11:35 [INFO]   ---------------------------
+333
+2024-04-02 15:11:35 [INFO]   File:[/github/workspace/cmd/qtc/main.go]
+334
+2024-04-02 15:11:36 [INFO]    - File:[main.go] was linted with [jscpd] successfully
+335
+2024-04-02 15:11:36 [INFO]      - Command output:
+336
+------
+337
+Found 0 clones.
+338
+Detection time:: 10.53ms
+339
+------
+340
+2024-04-02 15:11:36 [INFO]   ---------------------------
+341
+2024-04-02 15:11:36 [INFO]   File:[/github/workspace/internal/models-validator/validator.go]
+342
+2024-04-02 15:11:37 [INFO]    - File:[validator.go] was linted with [jscpd] successfully
+343
+2024-04-02 15:11:37 [INFO]      - Command output:
+344
+------
+345
+Found 0 clones.
+346
+Detection time:: 12.18ms
+347
+------
+348
+2024-04-02 15:11:37 [INFO]   ---------------------------
+349
+2024-04-02 15:11:37 [INFO]   File:[/github/workspace/internal/pkg/logging/logging.go]
+350
+2024-04-02 15:11:37 [INFO]    - File:[logging.go] was linted with [jscpd] successfully
+351
+2024-04-02 15:11:37 [INFO]      - Command output:
+352
+------
+353
+Found 0 clones.
+354
+Detection time:: 18.712ms
+355
+------
+356
+2024-04-02 15:11:38 [INFO]   
+357
+2024-04-02 15:11:38 [INFO]   ----------------------------------------------
+358
+2024-04-02 15:11:38 [INFO]   ----------------------------------------------
+359
+2024-04-02 15:11:38 [INFO]   Linting [MARKDOWN] files...
+360
+2024-04-02 15:11:38 [INFO]   ----------------------------------------------
+361
+2024-04-02 15:11:38 [INFO]   ----------------------------------------------
+362
+2024-04-02 15:11:38 [INFO]   ---------------------------
+363
+2024-04-02 15:11:38 [INFO]   File:[/github/workspace/README.md]
+364
+2024-04-02 15:11:38 [ERROR]   Found errors in [markdownlint] linter!
+365
+2024-04-02 15:11:38 [ERROR]   Error code: 1. Command output:
+366
+------
+367
+/github/workspace/README.md:7 MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: "# Steps to bring up the servic..."]
+368
+/github/workspace/README.md:12 MD025/single-title/single-h1 Multiple top-level headings in the same document [Context: "# Service Monitoring Dashboard..."]
+369
+/github/workspace/README.md:33 MD040/fenced-code-language Fenced code blocks should have a language specified [Context: "```"]
+370
+------
+371
+2024-04-02 15:11:38 [INFO]   
+372
+2024-04-02 15:11:38 [INFO]   ----------------------------------------------
+373
+2024-04-02 15:11:38 [INFO]   ----------------------------------------------
+374
+2024-04-02 15:11:38 [INFO]   Linting [NATURAL_LANGUAGE] files...
+375
+2024-04-02 15:11:38 [INFO]   ----------------------------------------------
+376
+2024-04-02 15:11:38 [INFO]   ----------------------------------------------
+377
+2024-04-02 15:11:38 [INFO]   ---------------------------
+378
+2024-04-02 15:11:38 [INFO]   File:[/github/workspace/.github/mci-variables.yaml]
+379
+2024-04-02 15:11:38 [INFO]    - File:[mci-variables.yaml] was linted with [textlint] successfully
+380
+2024-04-02 15:11:38 [INFO]   ---------------------------
+381
+2024-04-02 15:11:38 [INFO]   File:[/github/workspace/.github/workflows/managed-ci-pr.yaml]
+382
+2024-04-02 15:11:39 [INFO]    - File:[managed-ci-pr.yaml] was linted with [textlint] successfully
+383
+2024-04-02 15:11:39 [INFO]   ---------------------------
+384
+2024-04-02 15:11:39 [INFO]   File:[/github/workspace/README.md]
+385
+2024-04-02 15:11:39 [INFO]    - File:[README.md] was linted with [textlint] successfully
+386
+2024-04-02 15:11:39 [INFO]   ---------------------------
+387
+2024-04-02 15:11:39 [INFO]   File:[/github/workspace/cmd/qtc/main.go]
+388
+2024-04-02 15:11:40 [INFO]    - File:[main.go] was linted with [textlint] successfully
+389
+2024-04-02 15:11:40 [INFO]   ---------------------------
+390
+2024-04-02 15:11:40 [INFO]   File:[/github/workspace/internal/models-validator/validator.go]
+391
+2024-04-02 15:11:40 [INFO]    - File:[validator.go] was linted with [textlint] successfully
+392
+2024-04-02 15:11:40 [INFO]   ---------------------------
+393
+2024-04-02 15:11:40 [INFO]   File:[/github/workspace/internal/pkg/logging/logging.go]
+394
+2024-04-02 15:11:41 [INFO]    - File:[logging.go] was linted with [textlint] successfully
+395
+2024-04-02 15:11:42 [INFO]   
+396
+2024-04-02 15:11:42 [INFO]   ----------------------------------------------
+397
+2024-04-02 15:11:42 [INFO]   ----------------------------------------------
+398
+2024-04-02 15:11:42 [INFO]   Linting [YAML] files...
+399
+2024-04-02 15:11:42 [INFO]   ----------------------------------------------
+400
+2024-04-02 15:11:42 [INFO]   ----------------------------------------------
+401
+2024-04-02 15:11:42 [INFO]   ---------------------------
+402
+2024-04-02 15:11:42 [INFO]   File:[/github/workspace/.github/mci-variables.yaml]
+403
+2024-04-02 15:11:42 [INFO]    - File:[mci-variables.yaml] was linted with [yamllint] successfully
+404
+2024-04-02 15:11:42 [INFO]      - Command output:
+405
+------
+406
+Warning: orkspace/.github/mci-variables.yaml:1:1: [warning] missing document start "---" (document-start)
+407
+------
+408
+2024-04-02 15:11:42 [INFO]   ---------------------------
+409
+2024-04-02 15:11:42 [INFO]   File:[/github/workspace/.github/workflows/managed-ci-pr.yaml]
+410
+2024-04-02 15:11:42 [INFO]    - File:[managed-ci-pr.yaml] was linted with [yamllint] successfully
+411
+2024-04-02 15:11:42 [INFO]      - Command output:
+412
+------
+413
+Warning: orkspace/.github/workflows/managed-ci-pr.yaml:1:1: [warning] missing document start "---" (document-start)
+414
+------
+415
+2024-04-02 15:11:42 [INFO]   ----------------------------------------------
+416
+2024-04-02 15:11:42 [INFO]   ----------------------------------------------
+417
+2024-04-02 15:11:42 [INFO]   The script has completed
+418
+2024-04-02 15:11:42 [INFO]   ----------------------------------------------
+419
+2024-04-02 15:11:42 [INFO]   ----------------------------------------------
+420
+2024-04-02 15:11:42 [INFO]   ERROR! Failed to call GitHub Status API!
+421
+2024-04-02 15:11:42 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+422
+2024-04-02 15:11:43 [INFO]   ERROR! Failed to call GitHub Status API!
+423
+2024-04-02 15:11:43 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+424
+2024-04-02 15:11:43 [ERROR]   ERRORS FOUND in GO:[3]
+425
+2024-04-02 15:11:43 [INFO]   ERROR! Failed to call GitHub Status API!
+426
+2024-04-02 15:11:43 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+427
+2024-04-02 15:11:43 [INFO]   ERROR! Failed to call GitHub Status API!
+428
+2024-04-02 15:11:43 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+429
+2024-04-02 15:11:43 [ERROR]   ERRORS FOUND in MARKDOWN:[1]
+430
+2024-04-02 15:11:44 [INFO]   ERROR! Failed to call GitHub Status API!
+431
+2024-04-02 15:11:44 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+432
+2024-04-02 15:11:44 [INFO]   ERROR! Failed to call GitHub Status API!
+433
+2024-04-02 15:11:44 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+434
+2024-04-02 15:11:44 [INFO]   ERROR! Failed to call GitHub Status API!
+435
+2024-04-02 15:11:44 [INFO]   ERROR:[curl: (22) The requested URL returned error: 403]
+436
+2024-04-02 15:11:44 [FATAL]   Exiting with errors found!

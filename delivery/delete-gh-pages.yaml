@@ -1,0 +1,113 @@
+name: Run delete pages
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0' # Run every Sunday at midnight  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone the MCI repository
+        uses: actions/checkout@v3.3.0
+
+      # - name: Generate github app token
+      #   id: glcp-gh-token
+      #   uses: tibdex/github-app-token@v1.7.0
+      #   with:
+      #     app_id: ${{ vars.MANAGED_CI_WORKFLOW_APP_ID }}
+      #     installation_id: ${{ vars.MANAGED_CI_WORKFLOW_INSTALLATION_ID }}
+      #     private_key: ${{ secrets.MANAGED_CI_WORKFLOW_PRIVATE_KEY }}
+          
+      - name: Use github token as Env variable
+        env:
+          GITHUB_APP_TOKEN: ${{ secrets.APP_TOKEN }}
+        run: |
+          echo "GITHUB_APP_TOKEN=$GITHUB_APP_TOKEN" >> $GITHUB_ENV
+        shell: bash          
+
+      - name: Install Python modules
+        run: |
+          pip3 install ruamel.yaml
+          pip3 install pyyaml
+          pip3 install requests
+          pip install gitpython
+        env:
+          ORG_NAME: 'githubactions-omkar'
+          
+      # - name: Clone the report repository
+      #   uses: actions/checkout@v3.3.0
+      #   with:
+      #      repository: glcp/devops-reports
+      #      token: ${{ steps.glcp-gh-token.outputs.token }}
+      #      ref: main
+      #      path: devops-reports
+
+      - name: Invoke Python modules to deploy managed workflows
+        run: |
+          python gh-delete-pages.py
+        shell: bash
+        env:
+          GITHUB_APP_TOKEN: ${{ secrets.APP_TOKEN }}
+        
+
+      # - name: Invoke Python modules to add status checks
+      #   run: |
+      #     python status-check.py workflow-deployment.yaml
+      #   shell: bash
+
+      # - name: Check if SonarQube onboarding is required
+      #   # the text file is created by the Python script "main.py" if
+      #   # there are repos to be onboarded to SonarQube
+      #   id: check_sq
+      #   uses: andstor/file-existence-action@v2
+      #   with:
+      #     files: ${{GITHUB.WORKSPACE}}/need-sq-onboarding.txt
+
+      # - name: Trigger SonarQube onboarding if needed
+      #   if: steps.check_sq.outputs.files_exists == 'true'
+      #   uses: convictional/trigger-workflow-and-wait@v1.6.5
+      #   with:
+      #     # TODO set the branch name for testing purposes
+      #     # ref: <branch-name>
+      #     # TODO change the file name for testing purposes
+      #     # workflow_file_name: sonar-dev.yaml
+      #     workflow_file_name: sonar.yaml
+      #     owner: glcp
+      #     repo: devx-sonarqube
+      #     client_payload: >
+      #       {"run-comment": 
+      #          "triggered by '${{github.workflow}}' with run num ${{github.run_number}}"}
+      #     github_token: ${{ steps.glcp-gh-token.outputs.token }}
+
+      # - name: Check file existence
+      #   id: check_files
+      #   uses: andstor/file-existence-action@v2
+      #   with:
+      #     files: "${{GITHUB.WORKSPACE}}/devops-reports/workflow-reports/workflows-deployed.yaml"
+
+      # - name: Show deployed workflow report
+      #   if: steps.check_files.outputs.files_exists == 'true'
+      #   run: |
+      #     ls -l
+      #     echo ${{GITHUB.WORKSPACE}}/devops-reports/workflow-reports/workflows-deployed.yaml
+      #     cat ${{GITHUB.WORKSPACE}}/devops-reports/workflow-reports/workflows-deployed.yaml
+      #   shell: bash
+
+      # - name: Check for changes to report
+      #   id: verify_report_changes
+      #   if: steps.check_files.outputs.files_exists == 'true'
+      #   run: |
+      #     cd ${{GITHUB.WORKSPACE}}/devops-reports/workflow-reports
+      #     git diff --quiet . || echo "changed=true" >> $GITHUB_OUTPUT
+
+      # - name: Commit deployed workflow report
+      #   if: steps.check_files.outputs.files_exists == 'true' && steps.verify_report_changes.outputs.changed == 'true'
+      #   run: |
+      #     cd ${{GITHUB.WORKSPACE}}/devops-reports/workflow-reports
+      #     git config --global user.email "glcp-giotto@hpe.com"
+      #     git config --global user.name "glcp giotto"
+      #     git add  workflows-deployed.yaml
+      #     git commit  -m "Create/update deployed workflow report workflows-deployed.yaml"
+      #     git push origin main
+      #   shell: bash
