@@ -7,12 +7,12 @@ on:
     paths:
       - 'workflow-deployment.yaml'
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clone the MCI repository
-        uses: actions/checkout@v3.3.0
-      - name: Set Job event name as environment variable
-        run: export RUN_EVENT=${{ github.event_name }}
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Clone the MCI repository
+  #       uses: actions/checkout@v3.3.0
+  #     - name: Set Job event name as environment variable
+  #       run: export RUN_EVENT=${{ github.event_name }}
   other-workflow:
     uses: Omkarprakashchavan/tarun-repo-2/.github/workflows/managed-ci-workflow-2.yaml@main
