@@ -3,9 +3,9 @@ modules:
     description: Managed CI Workflow
     repositories:
       - name: managed-ci-workflow-test-maven
-        refspec: v1.6.0
+        refspec: v1.6.1
       - name: managed-ci-workflow-test-python
-        refspec: v1.6.0
+        refspec: v1.6.2
         optional_workflows:
           - managed-ci-pr-ft.yaml-xyz
         build_system: python
