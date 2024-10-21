@@ -15,4 +15,5 @@ jobs:
   #     - name: Set Job event name as environment variable
   #       run: export RUN_EVENT=${{ github.event_name }}
   other-workflow:
-    uses: Omkarprakashchavan/tarun-repo-2/.github/workflows/managed-ci-workflow-2.yaml@main
+    uses: Omkarprakashchavan/managed-ci-workflow/.github/workflows/managed-ci-workflow-deployer.yaml@main
+    # uses: Omkarprakashchavan/tarun-repo-2/.github/workflows/managed-ci-workflow-2.yaml@main
