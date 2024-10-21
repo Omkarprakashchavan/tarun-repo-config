@@ -3,7 +3,7 @@ modules:
     description: Managed CI Workflow
     repositories:
       - name: managed-ci-workflow-test-maven
-        refspec: v1.6.1
+        refspec: v1.6.2
       - name: managed-ci-workflow-test-python
         refspec: v1.6.2
         optional_workflows:
@@ -156,15 +156,15 @@ modules:
       - name: unified-events-ingestion-service
         refspec: tags/v1.8.0
       - name: unified-events-nats-infra
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: platform-analytics-ccs-spark
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: user-personalisation
         refspec: tags/v1.8.1
         optional_workflows:
           - managed-ci-hotfix-branch-create.yaml
       - name: platform-analytics-ccs-etl
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: authz
         refspec: tags/v1.8.4
         optional_workflows:
@@ -176,9 +176,9 @@ modules:
       - name: groups
         refspec: tags/v1.8.4
       - name: platform-analytics-ingest-etl
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: platform-analytics-ingest-sparkjobs
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: sample-publisher
         refspec: tags/v1.6.5
       - name: global-search
@@ -210,27 +210,27 @@ modules:
       - name: gts-compliance
         refspec: tags/v1.7.4
       - name: qtc
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: quote-to-cash
         refspec: tags/v1.5.0
       - name: api-sample-service
         refspec: tags/v1.5.0
       - name: metric-collector
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: test-service-catalog-utils
         refspec: tags/v1.5.1
       - name: mci-test-service-catalog-utils
         refspec: tags/v1.5.1
       - name: report-engine
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: report-core
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: report-mgmt
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: whats-new
         refspec: tags/v1.8.1
       - name: invoicing-api
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       # will enable after maven workflow is verified in cds-proxy-gateway
       #- name: cds-proxy-gateway
       #  refspec: tags/v1.5.0
@@ -245,7 +245,7 @@ modules:
       - name: mci-test-unified-api
         refspec: tags/v1.5.1
       - name: firmware-registry
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
         optional_workflows:
           - managed-ci-hotfix-branch-create.yaml
       - name: notifications-service
@@ -253,7 +253,7 @@ modules:
         optional_workflows:
           - managed-ci-hotfix-branch-create.yaml
       - name: async-handler-service
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: ccs-global-trade-compliance-lib
         refspec: tags/v1.7.4
       - name: location-management
@@ -261,7 +261,7 @@ modules:
       - name: octo-innov-ethan
         refspec: tags/v1.5.2
       - name: ccp-terraform-aws-alb
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: octo-innov-ethan-chat
         refspec: tags/v1.5.2
       - name: inventory-nbapi
@@ -269,7 +269,7 @@ modules:
         optional_workflows:
           - managed-ci-hotfix-branch-create.yaml
       - name: tag-repository
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: device-profile-management
         refspec: tags/v1.7.3
         optional_workflows:
@@ -291,7 +291,7 @@ modules:
       - name: platform-chat-proxy-service
         refspec: tags/v1.8.2
       - name: PerformanceRecommender
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: nimble-notification-service
         refspec: tags/v1.7.1
       - name: support-access-manager
@@ -496,15 +496,15 @@ modules:
       - name: unified-events-ingestion-service
         refspec: tags/v1.8.0
       - name: unified-events-nats-infra
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: platform-analytics-ccs-spark
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: user-personalisation
         refspec: tags/v1.8.1
         optional_workflows:
           - managed-ci-hotfix-branch-create.yaml
       - name: platform-analytics-ccs-etl
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: authz
         refspec: tags/v1.8.4
         optional_workflows:
@@ -516,9 +516,9 @@ modules:
       - name: groups
         refspec: tags/v1.8.4
       - name: platform-analytics-ingest-etl
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: platform-analytics-ingest-sparkjobs
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: sample-publisher
         refspec: tags/v1.6.5
       - name: global-search
@@ -550,27 +550,27 @@ modules:
       - name: gts-compliance
         refspec: tags/v1.7.4
       - name: qtc
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: quote-to-cash
         refspec: tags/v1.5.0
       - name: api-sample-service
         refspec: tags/v1.5.0
       - name: metric-collector
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: test-service-catalog-utils
         refspec: tags/v1.5.1
       - name: mci-test-service-catalog-utils
         refspec: tags/v1.5.1
       - name: report-engine
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: report-core
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: report-mgmt
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: whats-new
         refspec: tags/v1.8.1
       - name: invoicing-api
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       # will enable after maven workflow is verified in cds-proxy-gateway
       #- name: cds-proxy-gateway
       #  refspec: tags/v1.5.0
@@ -585,7 +585,7 @@ modules:
       - name: mci-test-unified-api
         refspec: tags/v1.5.1
       - name: firmware-registry
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
         optional_workflows:
           - managed-ci-hotfix-branch-create.yaml
       - name: notifications-service
@@ -593,7 +593,7 @@ modules:
         optional_workflows:
           - managed-ci-hotfix-branch-create.yaml
       - name: async-handler-service
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: ccs-global-trade-compliance-lib
         refspec: tags/v1.7.4
       - name: location-management
@@ -601,7 +601,7 @@ modules:
       - name: octo-innov-ethan
         refspec: tags/v1.5.2
       - name: ccp-terraform-aws-alb
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: octo-innov-ethan-chat
         refspec: tags/v1.5.2
       - name: inventory-nbapi
@@ -609,7 +609,7 @@ modules:
         optional_workflows:
           - managed-ci-hotfix-branch-create.yaml
       - name: tag-repository
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: device-profile-management
         refspec: tags/v1.7.3
         optional_workflows:
@@ -631,7 +631,7 @@ modules:
       - name: platform-chat-proxy-service
         refspec: tags/v1.8.2
       - name: PerformanceRecommender
-        refspec: tags/v1.6.1
+        refspec: tags/v1.6.2
       - name: nimble-notification-service
         refspec: tags/v1.7.1
       - name: support-access-manager
