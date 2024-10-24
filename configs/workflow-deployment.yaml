@@ -2,14 +2,14 @@ modules:
   - name: managed-ci-workflow
     description: Managed CI Workflow
     repositories:
-      - name: tarun-repo-1
+      - name: repo-1
         refspec: v1.6.0
-      - name: tarun-repo-2
+      - name: repo-2
         refspec: v1.6.0
         optional_workflows:
           - managed-ci-pr-ft.yaml-xyz
         build_system: python
-      - name: tarun-repo-3
+      - name: repo-3
         refspec: v1.6.0
   #     - name: managed-ci-workflow-test-maven
   #       refspec: v1.6.2
